@@ -1,6 +1,7 @@
 import 'package:emotijournal/app/models/option_model.dart';
 import 'package:emotijournal/app/modules/home/dialogs/theme_selection_dialog.dart';
 import 'package:emotijournal/app/modules/login/pages/login_page.dart';
+import 'package:emotijournal/app/modules/subscriptions/pages/subscription_page.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,14 @@ class HomeController extends GetxController {
     OptionModel(
       text: 'Subscriptions',
       icon: Assets.svgSubscriptions,
-      onPressed: () {},
+      onPressed: () {
+        Get.back();
+        Get.to(
+          () => const SubscriptionPage(),
+          transition: Transition.fade,
+          duration: 850.milliseconds,
+        );
+      },
     ),
     OptionModel(
       text: 'Logout',

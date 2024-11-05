@@ -1,4 +1,6 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:emotijournal/app/common_widgets/custom_text_form_field.dart';
+import 'package:emotijournal/app/modules/journal_entry/controller/journal_entry_controller.dart';
 import 'package:emotijournal/app/modules/journal_entry/dialogs/generating_response_dialog.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
@@ -11,10 +13,7 @@ import 'package:get/get.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ResponseViewPage extends StatelessWidget {
-  final pageController = PageController();
-  final textController = TextEditingController();
-
+class ResponseViewPage extends GetView<JournalEntryController> {
   ResponseViewPage({super.key});
 
   @override
@@ -62,7 +61,7 @@ class ResponseViewPage extends StatelessWidget {
           children: [
             Flexible(
               child: CustomizedTextFormField(
-                controller: textController,
+                controller: controller.textController,
                 hintText: 'Type Here',
                 style: AppTextStyles.medium.copyWith(
                   fontSize: 14.sp,
@@ -134,15 +133,15 @@ class ResponseViewPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _buildQuotesList(context),
+                FadeInUp(child: _buildQuotesList(context)),
                 20.verticalSpace,
-                _buildQuotesPageIndicator(context),
+                FadeInUp(delay: 100.milliseconds, child: _buildQuotesPageIndicator(context)),
                 20.verticalSpace,
-                _buildEmotionAnalysis(context),
+                FadeInUp(delay: 200.milliseconds, child: _buildEmotionAnalysis(context)),
                 25.verticalSpace,
-                _buildEmotionPillHeader(context),
+                FadeInUp(delay: 300.milliseconds, child: _buildEmotionPillHeader(context)),
                 10.verticalSpace,
-                _buildEmotionPillRow(context),
+                FadeInUp(delay: 400.milliseconds, child: _buildEmotionPillRow(context)),
                 20.verticalSpace,
               ],
             ),
@@ -157,7 +156,7 @@ class ResponseViewPage extends StatelessWidget {
       width: Get.width,
       height: 410.h,
       child: PageView.builder(
-        controller: pageController,
+        controller: controller.pageController,
         scrollDirection: Axis.horizontal,
         itemCount: 10,
         itemBuilder: (context, index) {
@@ -208,7 +207,7 @@ class ResponseViewPage extends StatelessWidget {
 
   Widget _buildQuotesPageIndicator(BuildContext context) {
     return SmoothPageIndicator(
-      controller: pageController,
+      controller: controller.pageController,
       count: 10,
       effect: ScrollingDotsEffect(
         activeStrokeWidth: 2.6,

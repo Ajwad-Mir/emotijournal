@@ -3,6 +3,7 @@ import 'package:emotijournal/app/modules/journal_entry/controller/journal_entry_
 import 'package:emotijournal/app/modules/login/controller/login_controller.dart';
 import 'package:emotijournal/app/modules/register/controller/register_controller.dart';
 import 'package:emotijournal/app/modules/splash/controller/splash_controller.dart';
+import 'package:emotijournal/app/modules/subscriptions/controller/subscription_controller.dart';
 import 'package:get/get.dart';
 
 class ControllerBindings extends Bindings {
@@ -14,5 +15,6 @@ class ControllerBindings extends Bindings {
     Get.lazyPut(() => RegisterController(),fenix: true);
     Get.lazyPut(() => HomeController(),fenix: true);
     Get.lazyPut(() => JournalEntryController(),fenix: true);
+    Get.lazyPut(() => SubscriptionsController(),fenix: true);
   }
 }
