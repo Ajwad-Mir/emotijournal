@@ -1,4 +1,5 @@
 import 'package:emotijournal/app/modules/home/controller/home_controller.dart';
+import 'package:emotijournal/app/modules/home/widgets/settings_dropdown.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
@@ -31,7 +32,8 @@ class CustomAppBar extends GetView<HomeController> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 20.w),
-          )
+            child: const SettingsDropdown(),
+          ),
         ],
         title: controller.isCollapsed.value
             ? _buildCollapsedSection(context)

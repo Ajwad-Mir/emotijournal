@@ -21,8 +21,8 @@ class AppColors {
       Color(0xFF2BCEEF),
     ],
     stops: [
-      0,
-      1,
+      0.0,
+      1.0,
     ],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,

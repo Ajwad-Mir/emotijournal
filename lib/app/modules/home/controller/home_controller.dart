@@ -1,4 +1,6 @@
 import 'package:emotijournal/app/models/option_model.dart';
+import 'package:emotijournal/app/modules/home/dialogs/theme_selection_dialog.dart';
+import 'package:emotijournal/app/modules/login/pages/login_page.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,9 +11,33 @@ class HomeController extends GetxController {
   final isCollapsed = false.obs;
   final selectedDate = DateTime.now().obs;
   final optionsList = <OptionModel>[
-    OptionModel(text: 'Theme', icon: Assets.svgThemeSelection),
-    OptionModel(text: 'Subscriptions', icon: Assets.svgSubscriptions),
-    OptionModel(text: 'Logout', icon: Assets.svgLogout),
+    OptionModel(
+      text: 'Theme',
+      icon: Assets.svgThemeSelection,
+      onPressed: () {
+        Get.back();
+        showDialog(
+          context: Get.context!,
+          builder: (context) => const ThemeSelectionDialog(),
+        );
+      },
+    ),
+    OptionModel(
+      text: 'Subscriptions',
+      icon: Assets.svgSubscriptions,
+      onPressed: () {},
+    ),
+    OptionModel(
+      text: 'Logout',
+      icon: Assets.svgLogout,
+      onPressed: () {
+        Get.offAll(
+          () => const LoginPage(),
+          transition: Transition.fade,
+          duration: 850.milliseconds,
+        );
+      },
+    ),
   ];
 
   @override

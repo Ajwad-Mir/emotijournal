@@ -3,13 +3,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ThemeService extends GetxController {
-  final _storage = GetStorage();
   final _themeKey = 'themeMode';
 
-  // Observable theme mode
-  final _themeMode = ThemeMode.system.obs;
 
-  ThemeMode get themeMode => _themeMode.value;
+  // Observable theme mode
+  final currentThemeMode = ThemeMode.system.obs;
 
   @override
   void onInit() {
@@ -20,12 +18,21 @@ class ThemeService extends GetxController {
 
   // Load theme from storage
   void _loadThemeMode() {
-    final savedMode = _storage.read(_themeKey);
+    final savedMode = GetStorage().read(_themeKey);
     if (savedMode != null) {
-      _themeMode.value = ThemeMode.values.firstWhere(
+      currentThemeMode.value = ThemeMode.values.firstWhere(
         (mode) => mode.toString() == savedMode,
         orElse: () => ThemeMode.system,
       );
     }
+  }
+
+  void changeTheme(ThemeMode selectedTheme) async{
+    if(currentThemeMode.value == selectedTheme) {
+      return;
+    }
+    currentThemeMode.value = selectedTheme;
+    Get.changeThemeMode(selectedTheme);
+    await GetStorage().write(_themeKey,currentThemeMode.value.toString());
   }
 }

@@ -36,9 +36,8 @@ class MyApp extends StatelessWidget {
             selectionHandleColor: AppColors.white,
           ),
         ),
-        themeMode: themeService.themeMode,
+        themeMode: themeService.currentThemeMode.value,
         initialBinding: ControllerBindings(),
-        smartManagement: SmartManagement.keepFactory,
         home: const SplashPage(),
       ),
     );
@@ -58,15 +57,15 @@ class MyApp extends StatelessWidget {
           ? SystemUiOverlayStyle(
               systemNavigationBarColor: Colors.black.withOpacity(0.005),
               systemNavigationBarIconBrightness: Brightness.light,
-              statusBarIconBrightness: Brightness.light,
-              statusBarBrightness: Brightness.light,
+              statusBarIconBrightness: Brightness.dark, //Android Icons
+              statusBarBrightness: Brightness.light, //iOS Icons
               statusBarColor: Colors.black.withOpacity(0.005),
             )
           : SystemUiOverlayStyle(
               systemNavigationBarColor: Colors.white.withOpacity(0.005),
               systemNavigationBarIconBrightness: Brightness.dark,
-              statusBarIconBrightness: Brightness.dark,
-              statusBarBrightness: Brightness.dark,
+              statusBarIconBrightness: Brightness.light, //Android Icons
+              statusBarBrightness: Brightness.dark, //iOS Icons
               statusBarColor: Colors.black.withOpacity(0.005),
             ),
     );
