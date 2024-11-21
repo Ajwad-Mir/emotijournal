@@ -1,8 +1,8 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:emotijournal/app/modules/home/pages/home_page.dart';
 import 'package:emotijournal/app/modules/login/controller/login_controller.dart';
 import 'package:emotijournal/app/common_widgets/custom_text_form_field.dart';
 import 'package:emotijournal/app/common_widgets/gradient_checkbox.dart';
+import 'package:emotijournal/app/services/session_service.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,6 +61,15 @@ class LoginSection extends GetView<LoginController> {
                           ? AppColors.darkTextColor.withOpacity(0.5)
                           : AppColors.lightTextColor.withOpacity(0.5),
                     ),
+                    validator: (value) {
+                      if(value.toString().isEmpty) {
+                        return "Email address should not be empty";
+                      }
+                      else if(value.toString().isEmail == false) {
+                        return "This is not a email address";
+                      }
+                      return null;
+                    },
                     fillColor: Theme.of(context).brightness == Brightness.dark
                         ? AppColors.darkBackgroundColor
                         : AppColors.lightBackgroundColor,
@@ -97,6 +106,12 @@ class LoginSection extends GetView<LoginController> {
                           ? AppColors.darkTextColor.withOpacity(0.5)
                           : AppColors.lightTextColor.withOpacity(0.5),
                     ),
+                    validator: (value) {
+                      if(value.toString().isEmpty) {
+                        return "Password should not be empty";
+                      }
+                      return null;
+                    },
                     fillColor: Theme.of(context).brightness == Brightness.dark
                         ? AppColors.darkBackgroundColor
                         : AppColors.lightBackgroundColor,
@@ -178,8 +193,10 @@ class LoginSection extends GetView<LoginController> {
 
   Widget _buildLoginButton(BuildContext context) {
     return CupertinoButton(
-      onPressed: () {
-        Get.offAll(() => const HomePage(),transition: Transition.fadeIn,duration: 850.milliseconds);
+      onPressed: () async{
+        if(controller.loginFormKey.currentState!.validate()) {
+          await Get.find<SessionService>().loginExistingSimple();
+        }
       },
       minSize: 0,
       pressedOpacity: 0.5,

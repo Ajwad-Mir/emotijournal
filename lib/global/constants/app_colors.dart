@@ -14,7 +14,7 @@ class AppColors {
   static const Color darkTextColor = Color(0xFFFFFFFF);
   static const Color lightTextColor = Color(0xFF000000);
   static const Color lightBackgroundColor = Color(0xFFFFFFFF);
-  static const Color darkBackgroundColor = Color(0xFF111111);
+  static const Color darkBackgroundColor = Color(0xFF202020);
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [
       Color(0xFF00DA89),

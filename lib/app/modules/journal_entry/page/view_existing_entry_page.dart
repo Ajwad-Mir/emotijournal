@@ -1,3 +1,4 @@
+import 'package:emotijournal/app/models/journal_model.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,10 +8,11 @@ import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ViewExistingEntryPage extends StatelessWidget {
+  final JournalModel selectedJournalEntry;
   final pageController = PageController();
   final textController = TextEditingController();
 
-  ViewExistingEntryPage({super.key});
+  ViewExistingEntryPage({super.key, required this.selectedJournalEntry});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class ViewExistingEntryPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         title: Text(
-          'Title Text',
+          selectedJournalEntry.title,
           textScaler: const TextScaler.linear(1),
           style: AppTextStyles.medium.copyWith(
             fontSize: 20.sp,
@@ -77,7 +79,7 @@ class ViewExistingEntryPage extends StatelessWidget {
       child: PageView.builder(
         controller: pageController,
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: selectedJournalEntry.quotesList.length,
         itemBuilder: (context, index) {
           return Container(
             margin: EdgeInsets.symmetric(horizontal: 28.w),
@@ -95,7 +97,7 @@ class ViewExistingEntryPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Sometime, the greatest of things, takes the longest to happens and demands the ultimate sacrifice for the ultimate rewards.',
+                  selectedJournalEntry.quotesList[index].quote,
                   textAlign: TextAlign.center,
                   textScaler: const TextScaler.linear(1),
                   style: AppTextStyles.light.copyWith(
@@ -107,7 +109,7 @@ class ViewExistingEntryPage extends StatelessWidget {
                 SizedBox(
                   width: Get.width,
                   child: Text(
-                    'Quoter',
+                    selectedJournalEntry.quotesList[index].author,
                     textAlign: TextAlign.end,
                     textScaler: const TextScaler.linear(1),
                     style: AppTextStyles.light.copyWith(
@@ -127,7 +129,7 @@ class ViewExistingEntryPage extends StatelessWidget {
   Widget _buildQuotesPageIndicator(BuildContext context) {
     return SmoothPageIndicator(
       controller: pageController,
-      count: 10,
+      count: selectedJournalEntry.quotesList.length,
       effect: ScrollingDotsEffect(
         activeStrokeWidth: 2.6,
         activeDotScale: 1.3,
@@ -168,7 +170,7 @@ class ViewExistingEntryPage extends StatelessWidget {
           ),
           12.verticalSpace,
           Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer convallis mi cursus metus iaculis, non tempor ligula blandit. Ut bibendum elit quis augue tincidunt, eget vestibulum est mollis. Sed in efficitur sapien. Fusce nec semper nisl, a cursus mi. Curabitur quis orci nec lorem porta tempor. Fusce gravida auctor urna eu volutpat. Mauris sit amet velit sed eros tristique congue ut id nisl. Maecenas viverra hendrerit placerat.',
+            selectedJournalEntry.queries.first.analysis,
             textAlign: TextAlign.start,
             textScaler: const TextScaler.linear(1),
             style: AppTextStyles.light.copyWith(
@@ -210,18 +212,13 @@ class ViewExistingEntryPage extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.start,
           spacing: 5.w,
           runSpacing: 5.h,
-          children: [
-            _buildJournalMoodPill(context: context, pillText: "Angry"),
-            _buildJournalMoodPill(context: context, pillText: "Hate"),
-            _buildJournalMoodPill(context: context, pillText: "Rage"),
-            _buildJournalMoodPill(context: context, pillText: "Happiness"),
-          ],
+          children: selectedJournalEntry.emotionsList.map((element) => _buildJournalMoodPill(context: context, pillText: element)).toList(),
         ),
       ),
     );
   }
 
-  Widget _buildJournalMoodPill({required BuildContext context,required String pillText}) {
+  Widget _buildJournalMoodPill({required BuildContext context, required String pillText}) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

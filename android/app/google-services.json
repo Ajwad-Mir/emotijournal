@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "18020754221",
+    "project_id": "emotijournal-39968",
+    "storage_bucket": "emotijournal-39968.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18020754221:android:7bf1004c9c073a3643a9a4",
+        "android_client_info": {
+          "package_name": "com.app.emotijournal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "18020754221-lgdm5f0pnhgg711e5rv6eij7290hc6mb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.emotijournal",
+            "certificate_hash": "cfb7b5c6e9d020b221eaa2411e7076ef28543b91"
+          }
+        },
+        {
+          "client_id": "18020754221-mjdc7n5tmdg2qgfulrkdon4gi51j5it1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDijDyZpaIbvmdpfz8e106dcKGC20L-kDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "18020754221-mjdc7n5tmdg2qgfulrkdon4gi51j5it1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "18020754221-jc0f7er0fa5dg0j5q8lv4ktv7nljd0kk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.emotijournal"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

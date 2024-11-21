@@ -97,7 +97,13 @@ class _CustomizedTextFormFieldState extends State<CustomizedTextFormField> {
             minHeight: 51.h,
             maxHeight: widget.maxHeight,
           ),
+
           border: widget.border ??
+              OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.r),
+                  borderSide:
+                      const BorderSide(color: Color(0xFFC8D1D7), width: 1.0)),
+          enabledBorder: widget.border ??
               OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
                   borderSide:

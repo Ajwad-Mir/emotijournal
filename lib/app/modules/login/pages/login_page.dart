@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:emotijournal/app/common_widgets/gradient_icons.dart';
+import 'package:emotijournal/app/common_widgets/logo_widget.dart';
 import 'package:emotijournal/app/modules/login/controller/login_controller.dart';
 import 'package:emotijournal/app/modules/login/views/login_section.dart';
 import 'package:emotijournal/app/modules/register/pages/register_page.dart';
-import 'package:emotijournal/app/common_widgets/gradient_icons.dart';
-import 'package:emotijournal/app/common_widgets/logo_widget.dart';
+import 'package:emotijournal/app/services/session_service.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
@@ -19,9 +22,7 @@ class LoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return GetBuilder<LoginController>(
       builder: (_) => Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? AppColors.darkBackgroundColor
-            : AppColors.lightBackgroundColor,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
         body: Container(
           width: Get.width,
           height: Get.height,
@@ -56,10 +57,7 @@ class LoginPage extends GetView<LoginController> {
                             "Don't have a account? ",
                             style: AppTextStyles.normal.copyWith(
                               fontSize: 16.sp,
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? AppColors.darkTextColor
-                                  : AppColors.lightTextColor,
+                              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                             ),
                           ),
                           CupertinoButton(
@@ -78,10 +76,7 @@ class LoginPage extends GetView<LoginController> {
                               style: AppTextStyles.normal.copyWith(
                                 fontSize: 16.sp,
                                 decoration: TextDecoration.underline,
-                                decorationColor: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? AppColors.darkTextColor
-                                    : AppColors.lightTextColor,
+                                decorationColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                                 color: const Color(0xFF00DA89),
                               ),
                             ),
@@ -113,10 +108,7 @@ class LoginPage extends GetView<LoginController> {
               'Welcome to EmotiJournal',
               textScaler: const TextScaler.linear(1),
               style: AppTextStyles.semiBold.copyWith(
-                  fontSize: 24.sp,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? AppColors.darkTextColor
-                      : AppColors.lightTextColor),
+                  fontSize: 24.sp, color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor),
             ),
           ),
           10.verticalSpace,
@@ -155,9 +147,7 @@ class LoginPage extends GetView<LoginController> {
             textScaler: const TextScaler.linear(1),
             style: AppTextStyles.normal.copyWith(
               fontSize: 14.sp,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? AppColors.darkTextColor
-                  : AppColors.lightTextColor,
+              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
             ),
           ),
         ),
@@ -169,18 +159,23 @@ class LoginPage extends GetView<LoginController> {
             children: [
               _buildPlatformButton(
                 context: context,
-                borderColor: Theme.of(context).brightness == Brightness.light
-                    ? AppColors.darkBackgroundColor
-                    : AppColors.lightBackgroundColor,
+                onPressed: () async{
+                  await Get.find<SessionService>().loginExistingProvider(providerName: "Google");
+                },
+                borderColor: Theme.of(context).brightness == Brightness.light ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
                 icon: Assets.svgGoogleIcon,
               ),
-              85.horizontalSpace,
-              _buildPlatformButton(
+              if(Platform.isIOS)...[
+                85.horizontalSpace,
+                _buildPlatformButton(
                   context: context,
-                  borderColor: Theme.of(context).brightness == Brightness.light
-                      ? AppColors.darkBackgroundColor
-                      : AppColors.lightBackgroundColor,
-                  icon: Assets.svgAppleIcon)
+                  onPressed: () async{
+                    await Get.find<SessionService>().loginExistingProvider(providerName: "Apple");
+                  },
+                  borderColor: Theme.of(context).brightness == Brightness.light ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+                  icon: Assets.svgAppleIcon,
+                )
+              ]
             ],
           ),
         )
@@ -188,12 +183,14 @@ class LoginPage extends GetView<LoginController> {
     );
   }
 
-  Widget _buildPlatformButton(
-      {required BuildContext context,
-      required Color borderColor,
-      required String icon}) {
+  Widget _buildPlatformButton({
+    required BuildContext context,
+    required Color borderColor,
+    required String icon,
+    required VoidCallback onPressed,
+  }) {
     return CupertinoButton(
-      onPressed: () {},
+      onPressed: onPressed,
       pressedOpacity: 0.5,
       minSize: 0,
       padding: EdgeInsets.zero,
@@ -202,9 +199,7 @@ class LoginPage extends GetView<LoginController> {
         height: 75.h,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Theme.of(context).brightness == Brightness.dark
-              ? AppColors.darkBackgroundColor
-              : AppColors.lightBackgroundColor,
+          color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
           border: Border.all(
             color: borderColor,
             width: 1.0,

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class JournalEntryController  extends GetxController {
+class JournalManagementController  extends GetxController {
   final emotionsTextController = TextEditingController();
   final currentTextAlign = TextAlign.center.obs;
   final isListening = false.obs;

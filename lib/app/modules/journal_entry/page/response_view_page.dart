@@ -13,14 +13,15 @@ import 'package:get/get.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ResponseViewPage extends GetView<JournalEntryController> {
-  ResponseViewPage({super.key});
+class ResponseViewPage extends GetView<JournalManagementController> {
+  const ResponseViewPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
@@ -129,7 +130,6 @@ class ResponseViewPage extends GetView<JournalEntryController> {
           gradient: AppColors.primaryGradient,
         ),
         child: SafeArea(
-          bottom: false,
           child: SingleChildScrollView(
             child: Column(
               children: [

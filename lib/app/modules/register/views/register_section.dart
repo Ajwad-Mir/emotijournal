@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:emotijournal/app/modules/home/pages/home_page.dart';
-import 'package:emotijournal/app/modules/register/controller/register_controller.dart';
 import 'package:emotijournal/app/common_widgets/custom_text_form_field.dart';
+import 'package:emotijournal/app/modules/register/controller/register_controller.dart';
+import 'package:emotijournal/app/services/session_service.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,10 +24,7 @@ class RegisterSection extends GetView<RegisterController> {
             'Register',
             textScaler: const TextScaler.linear(1),
             style: AppTextStyles.semiBold.copyWith(
-                fontSize: 24.sp,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? AppColors.darkTextColor
-                    : AppColors.lightTextColor),
+                fontSize: 24.sp, color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor),
           ),
         ),
         10.verticalSpace,
@@ -37,8 +34,7 @@ class RegisterSection extends GetView<RegisterController> {
             width: Get.width,
             padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.w),
             decoration: BoxDecoration(
-              border: GradientBoxBorder(
-                  gradient: AppColors.primaryGradient, width: 1.w),
+              border: GradientBoxBorder(gradient: AppColors.primaryGradient, width: 1.w),
               borderRadius: BorderRadius.circular(15.r),
             ),
             child: Form(
@@ -49,9 +45,7 @@ class RegisterSection extends GetView<RegisterController> {
                     controller: controller.fullNameController,
                     style: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor
-                          : AppColors.lightTextColor,
+                      color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                     ),
                     hintText: 'Full Name',
                     hintStyle: AppTextStyles.normal.copyWith(
@@ -60,24 +54,22 @@ class RegisterSection extends GetView<RegisterController> {
                           ? AppColors.darkTextColor.withOpacity(0.5)
                           : AppColors.lightTextColor.withOpacity(0.5),
                     ),
-                    fillColor: Theme.of(context).brightness == Brightness.dark
-                        ? AppColors.darkBackgroundColor
-                        : AppColors.lightBackgroundColor,
+                    validator: (val) {
+                      if (val.toString().isEmpty) {
+                        return 'Full name is required';
+                      } else if (!RegExp(r'^[a-zA-Z]+(\s[a-zA-Z]+){1,2}$').hasMatch(val.toString())) {
+                        return 'Please enter a valid full name (First, Middle, and Last name are allowed)';
+                      }
+                      return null;
+                    },
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.white
-                              : AppColors.black,
-                          width: 1.0),
+                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.white
-                              : AppColors.black,
-                          width: 1.5),
+                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.5),
                     ),
                   ),
                   21.verticalSpace,
@@ -85,9 +77,7 @@ class RegisterSection extends GetView<RegisterController> {
                     controller: controller.emailController,
                     style: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor
-                          : AppColors.lightTextColor,
+                      color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                     ),
                     hintText: 'Email Address',
                     hintStyle: AppTextStyles.normal.copyWith(
@@ -96,24 +86,22 @@ class RegisterSection extends GetView<RegisterController> {
                           ? AppColors.darkTextColor.withOpacity(0.5)
                           : AppColors.lightTextColor.withOpacity(0.5),
                     ),
-                    fillColor: Theme.of(context).brightness == Brightness.dark
-                        ? AppColors.darkBackgroundColor
-                        : AppColors.lightBackgroundColor,
+                    validator: (val) {
+                      if (val.toString().isEmpty) {
+                        return "Email cannot be empty";
+                      } else if (val.toString().isNotEmpty && !val.toString().isEmail) {
+                        return "This is a invalid email address";
+                      }
+                      return null;
+                    },
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.white
-                              : AppColors.black,
-                          width: 1.0),
+                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.white
-                              : AppColors.black,
-                          width: 1.5),
+                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.5),
                     ),
                   ),
                   21.verticalSpace,
@@ -121,9 +109,7 @@ class RegisterSection extends GetView<RegisterController> {
                     controller: controller.passwordController,
                     style: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor
-                          : AppColors.lightTextColor,
+                      color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                     ),
                     hintText: 'Password',
                     hintStyle: AppTextStyles.normal.copyWith(
@@ -132,24 +118,22 @@ class RegisterSection extends GetView<RegisterController> {
                           ? AppColors.darkTextColor.withOpacity(0.5)
                           : AppColors.lightTextColor.withOpacity(0.5),
                     ),
-                    fillColor: Theme.of(context).brightness == Brightness.dark
-                        ? AppColors.darkBackgroundColor
-                        : AppColors.lightBackgroundColor,
+                    validator: (val) {
+                      if (val.toString().isEmpty) {
+                        return "Password cannot be empty";
+                      } else if (val.toString() != controller.confirmPasswordController.text) {
+                        return "Passwords do not match";
+                      }
+                      return null;
+                    },
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.white
-                              : AppColors.black,
-                          width: 1.0),
+                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.white
-                              : AppColors.black,
-                          width: 1.5),
+                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.5),
                     ),
                   ),
                   21.verticalSpace,
@@ -157,35 +141,31 @@ class RegisterSection extends GetView<RegisterController> {
                     controller: controller.confirmPasswordController,
                     style: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor
-                          : AppColors.lightTextColor,
+                      color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                     ),
                     hintText: 'Confirm Password',
+                    validator: (val) {
+                      if (val.toString().isEmpty) {
+                        return "Password cannot be empty";
+                      } else if (val.toString() != controller.passwordController.text) {
+                        return "Passwords do not match";
+                      }
+                      return null;
+                    },
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
                           ? AppColors.darkTextColor.withOpacity(0.5)
                           : AppColors.lightTextColor.withOpacity(0.5),
                     ),
-                    fillColor: Theme.of(context).brightness == Brightness.dark
-                        ? AppColors.darkBackgroundColor
-                        : AppColors.lightBackgroundColor,
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.white
-                              : AppColors.black,
-                          width: 1.0),
+                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.white
-                              : AppColors.black,
-                          width: 1.5),
+                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.5),
                     ),
                   ),
                   37.verticalSpace,
@@ -201,8 +181,10 @@ class RegisterSection extends GetView<RegisterController> {
 
   Widget _buildRegisterButton(BuildContext context) {
     return CupertinoButton(
-      onPressed: () {
-        Get.to(() => const HomePage(),transition: Transition.fade,duration: 850.milliseconds);
+      onPressed: () async {
+        if (controller.registerFormKey.currentState!.validate()) {
+          await Get.find<SessionService>().createNewUserSimple();
+        }
       },
       minSize: 0,
       pressedOpacity: 0.5,
@@ -212,9 +194,7 @@ class RegisterSection extends GetView<RegisterController> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100.r),
           border: Border.all(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppColors.white
-                : AppColors.black,
+            color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
             width: 1.0.w,
           ),
         ),
@@ -225,9 +205,7 @@ class RegisterSection extends GetView<RegisterController> {
             textScaler: const TextScaler.linear(1),
             style: AppTextStyles.medium.copyWith(
               fontSize: 16.sp,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? AppColors.darkTextColor
-                  : AppColors.lightTextColor,
+              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
             ),
           ),
         ),

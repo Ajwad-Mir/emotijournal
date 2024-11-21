@@ -21,8 +21,11 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
           child: Container(
             width: Get.width,
             height: 125.h,
-            margin: EdgeInsets.symmetric(horizontal: 14.w),
-            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+            padding: EdgeInsets.symmetric(horizontal: 14.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(25)),
+              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+            ),
             child: Obx(
               () => TableCalendar(
                 currentDay: DateTime.now(),
@@ -39,9 +42,14 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                 daysOfWeekVisible: false,
                 rowHeight: 90.h,
                 daysOfWeekHeight: 0,
-                onDaySelected: (selectedDay, focusedDay) {
+                onDaySelected: (selectedDay, focusedDay) async {
                   controller.selectedDate.value = selectedDay;
-                  controller.selectedDate.value = focusedDay;
+                  controller.journalList.clear();
+                  controller.update();
+                  if (controller.isCollapsed.isTrue) {
+                    controller.scrollController.position.animateTo(0, duration: 500.milliseconds, curve: Curves.linear);
+                  }
+                  await controller.getAllJournalEntries();
                 },
                 shouldFillViewport: true,
                 availableGestures: AvailableGestures.horizontalSwipe,
@@ -57,15 +65,16 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 calendarBuilders: CalendarBuilders(
                   dowBuilder: (context, day) => const SizedBox.shrink(),
-                  headerTitleBuilder: (context,date) {
-                    return Center(
-                      child: Text(
-                        DateFormat('MMMM yyyy').format(date),
-                        style:AppTextStyles.medium.copyWith(
-                          fontSize: 24.sp,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.darkTextColor
-                              : AppColors.lightTextColor,
+                  headerTitleBuilder: (context, date) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      child: Center(
+                        child: Text(
+                          DateFormat('MMMM yyyy').format(date),
+                          style: AppTextStyles.medium.copyWith(
+                            fontSize: 24.sp,
+                            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                          ),
                         ),
                       ),
                     );
@@ -85,8 +94,7 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                           Text(
                             day.day.toString(),
                             textScaler: const TextScaler.linear(1),
-                            style: AppTextStyles.medium.copyWith(
-                                fontSize: 24.sp, color: AppColors.white),
+                            style: AppTextStyles.medium.copyWith(fontSize: 24.sp, color: AppColors.white),
                           ),
                           Text(
                             DateFormat(DateFormat.ABBR_WEEKDAY).format(day),
@@ -100,7 +108,7 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                       ),
                     );
                   },
-                  holidayBuilder:  (context, day, focusedDay) {
+                  holidayBuilder: (context, day, focusedDay) {
                     return Container(
                       width: 100.w,
                       height: 100.h,
@@ -117,10 +125,7 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.medium.copyWith(
                               fontSize: 24.sp,
-                              color:
-                              Theme.of(context).brightness == Brightness.dark
-                                  ? AppColors.darkTextColor
-                                  : AppColors.lightTextColor,
+                              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                             ),
                           ),
                           Text(
@@ -128,20 +133,18 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.normal.copyWith(
                               fontSize: 16.sp,
-                              color: (day.weekday == DateTime.sunday ||
-                                  day.weekday == DateTime.saturday)
+                              color: (day.weekday == DateTime.sunday || day.weekday == DateTime.saturday)
                                   ? Colors.red
-                                  : Theme.of(context).brightness ==
-                                  Brightness.dark
-                                  ? AppColors.darkTextColor
-                                  : AppColors.lightTextColor,
+                                  : Theme.of(context).brightness == Brightness.dark
+                                      ? AppColors.darkTextColor
+                                      : AppColors.lightTextColor,
                             ),
                           ),
                         ],
                       ),
                     );
                   },
-                  outsideBuilder:  (context, day, focusedDay) {
+                  outsideBuilder: (context, day, focusedDay) {
                     return Container(
                       width: 100.w,
                       height: 100.h,
@@ -158,10 +161,7 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.medium.copyWith(
                               fontSize: 24.sp,
-                              color:
-                              Theme.of(context).brightness == Brightness.dark
-                                  ? AppColors.darkTextColor
-                                  : AppColors.lightTextColor,
+                              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                             ),
                           ),
                           Text(
@@ -169,13 +169,11 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.normal.copyWith(
                               fontSize: 16.sp,
-                              color: (day.weekday == DateTime.sunday ||
-                                  day.weekday == DateTime.saturday)
+                              color: (day.weekday == DateTime.sunday || day.weekday == DateTime.saturday)
                                   ? Colors.red
-                                  : Theme.of(context).brightness ==
-                                  Brightness.dark
-                                  ? AppColors.darkTextColor
-                                  : AppColors.lightTextColor,
+                                  : Theme.of(context).brightness == Brightness.dark
+                                      ? AppColors.darkTextColor
+                                      : AppColors.lightTextColor,
                             ),
                           ),
                         ],
@@ -190,9 +188,7 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.darkTextColor
-                              : AppColors.lightTextColor,
+                          color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                         ),
                       ),
                       child: Column(
@@ -203,22 +199,15 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.medium.copyWith(
                               fontSize: 24.sp,
-                              color:
-                                  Theme.of(context).brightness == Brightness.dark
-                                      ? AppColors.darkTextColor
-                                      : AppColors.lightTextColor,
+                              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                             ),
                           ),
                           Text(
-                            DateFormat(DateFormat.ABBR_WEEKDAY)
-                                .format(currentDate),
+                            DateFormat(DateFormat.ABBR_WEEKDAY).format(currentDate),
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.normal.copyWith(
                               fontSize: 16.sp,
-                              color:
-                                  Theme.of(context).brightness == Brightness.dark
-                                      ? AppColors.darkTextColor
-                                      : AppColors.lightTextColor,
+                              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                             ),
                           ),
                         ],
@@ -242,10 +231,7 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.medium.copyWith(
                               fontSize: 24.sp,
-                              color:
-                                  Theme.of(context).brightness == Brightness.dark
-                                      ? AppColors.darkTextColor
-                                      : AppColors.lightTextColor,
+                              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
                             ),
                           ),
                           Text(
@@ -253,11 +239,9 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.normal.copyWith(
                               fontSize: 16.sp,
-                              color: (day.weekday == DateTime.sunday ||
-                                      day.weekday == DateTime.saturday)
+                              color: (day.weekday == DateTime.sunday || day.weekday == DateTime.saturday)
                                   ? Colors.red
-                                  : Theme.of(context).brightness ==
-                                          Brightness.dark
+                                  : Theme.of(context).brightness == Brightness.dark
                                       ? AppColors.darkTextColor
                                       : AppColors.lightTextColor,
                             ),
@@ -283,10 +267,9 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.medium.copyWith(
                               fontSize: 24.sp,
-                              color:
-                                  Theme.of(context).brightness == Brightness.dark
-                                      ? AppColors.darkTextColor.withOpacity(0.4)
-                                      : AppColors.lightTextColor.withOpacity(0.4),
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppColors.darkTextColor.withOpacity(0.4)
+                                  : AppColors.lightTextColor.withOpacity(0.4),
                             ),
                           ),
                           Text(
@@ -294,11 +277,9 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             textScaler: const TextScaler.linear(1),
                             style: AppTextStyles.normal.copyWith(
                               fontSize: 16.sp,
-                              color: (day.weekday == DateTime.sunday ||
-                                      day.weekday == DateTime.saturday)
+                              color: (day.weekday == DateTime.sunday || day.weekday == DateTime.saturday)
                                   ? Colors.red.withOpacity(0.4)
-                                  : Theme.of(context).brightness ==
-                                          Brightness.dark
+                                  : Theme.of(context).brightness == Brightness.dark
                                       ? AppColors.darkTextColor.withOpacity(0.4)
                                       : AppColors.lightTextColor.withOpacity(0.4),
                             ),
@@ -328,8 +309,7 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   _StickyHeaderDelegate({required this.child});
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return child;
   }
 

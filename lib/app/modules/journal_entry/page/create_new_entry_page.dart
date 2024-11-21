@@ -12,7 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 
-class CreateNewEntryPage extends GetView<JournalEntryController> {
+class CreateNewEntryPage extends GetView<JournalManagementController> {
   const CreateNewEntryPage({super.key});
 
   @override
