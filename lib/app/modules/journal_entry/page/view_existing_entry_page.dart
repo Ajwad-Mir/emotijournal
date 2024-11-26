@@ -22,11 +22,13 @@ class ViewExistingEntryPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
+        titleSpacing: 5.w,
         title: Text(
           selectedJournalEntry.title,
+          maxLines: 2,
           textScaler: const TextScaler.linear(1),
           style: AppTextStyles.medium.copyWith(
-            fontSize: 20.sp,
+            fontSize: 16.sp,
             color: AppColors.white,
           ),
         ),

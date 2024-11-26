@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:emotijournal/app/modules/home/controller/home_controller.dart';
 import 'package:emotijournal/app/modules/home/widgets/custom_app_bar.dart';
@@ -57,12 +59,13 @@ class HomePage extends GetView<HomeController> {
             width: 80.w,
             height: 80.h,
             decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: AppColors.primaryGradient,
-                border: Border.all(
-                  color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
-                )),
-            padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 24.w),
+              shape: BoxShape.circle,
+              gradient: AppColors.primaryGradient,
+              border: Border.all(
+                color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
+              ),
+            ),
+            padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
             child: SvgPicture.asset(
               Assets.svgAddEntry,
             ),
@@ -112,8 +115,11 @@ class HomePage extends GetView<HomeController> {
   Widget _buildJournalEntry(BuildContext context, int index) {
     return CupertinoButton(
       onPressed: () {
+        log(controller.journalList[index].quotesList.length.toString());
         Get.to(
-          () => ViewExistingEntryPage(selectedJournalEntry: controller.journalList[index],),
+          () => ViewExistingEntryPage(
+            selectedJournalEntry: controller.journalList[index],
+          ),
           transition: Transition.fade,
           duration: 850.milliseconds,
         );
@@ -136,16 +142,19 @@ class HomePage extends GetView<HomeController> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  controller.journalList[index].title,
-                  textScaler: const TextScaler.linear(1),
-                  style: AppTextStyles.semiBold.copyWith(
-                    fontSize: 20.sp,
-                    color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                Expanded(
+                  child: Text(
+                    controller.journalList[index].title,
+                    textScaler: const TextScaler.linear(1),
+                    style: AppTextStyles.semiBold.copyWith(
+                      fontSize: 20.sp,
+                      color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                    ),
                   ),
                 ),
+                20.horizontalSpace,
                 Text(
                   DateFormat("hh:mm a").format(
                     controller.journalList[index].createdAt,
@@ -160,7 +169,7 @@ class HomePage extends GetView<HomeController> {
                 )
               ],
             ),
-            5.verticalSpace,
+            15.verticalSpace,
             SizedBox(
               width: Get.width,
               child: Text(

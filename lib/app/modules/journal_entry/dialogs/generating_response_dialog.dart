@@ -8,9 +8,8 @@ import 'package:lottie/lottie.dart';
 
 class GeneratingResponseDialog extends StatefulWidget {
   final VoidCallback completionFunction;
-  final Duration duration;
 
-  const GeneratingResponseDialog({super.key, required this.completionFunction, required this.duration});
+  const GeneratingResponseDialog({super.key, required this.completionFunction});
 
   @override
   State<GeneratingResponseDialog> createState() =>
@@ -55,6 +54,6 @@ class _GeneratingResponseDialogState extends State<GeneratingResponseDialog> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(widget.duration, widget.completionFunction);
+    Future.delayed(0.seconds, widget.completionFunction);
   }
 }

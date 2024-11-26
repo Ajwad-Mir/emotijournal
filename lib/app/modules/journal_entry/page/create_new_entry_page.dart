@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 
@@ -193,22 +194,34 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
   Widget _buildAnalyzeButton() {
     return CupertinoButton(
       onPressed: () async {
-        await Get.dialog(
-          Dialog(
-            child: GeneratingResponseDialog(
-              duration: 5.seconds,
-              completionFunction: () {
-                Get.off(
-                  () => ResponseViewPage(),
-                  transition: Transition.cupertino,
-                  duration: 850.milliseconds,
-                );
-              },
+        if (controller.emotionsTextController.text.isNotEmpty) {
+          await Get.dialog(
+            Dialog(
+              child: GeneratingResponseDialog(
+                completionFunction: () async {
+                  await controller.createNewJournal();
+                  Get.off(
+                    () => ResponseViewPage(),
+                    transition: Transition.cupertino,
+                    duration: 850.milliseconds,
+                  );
+                },
+              ),
             ),
-          ),
-          barrierDismissible: false,
-          barrierColor: AppColors.black.withOpacity(0.75),
-        );
+            barrierDismissible: false,
+            barrierColor: AppColors.black.withOpacity(0.75),
+          );
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Write or Say something first',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            fontSize: 14.sp,
+            fontAsset: Assets.fontsPoppinsRegular,
+            textColor: AppColors.white,
+            backgroundColor: AppColors.black,
+          );
+        }
       },
       minSize: 0,
       padding: EdgeInsets.zero,
@@ -221,7 +234,6 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
               width: 2.0,
             )),
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
-
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,

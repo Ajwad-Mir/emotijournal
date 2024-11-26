@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:emotijournal/app/common_widgets/custom_text_form_field.dart';
+import 'package:emotijournal/app/modules/home/pages/home_page.dart';
 import 'package:emotijournal/app/modules/journal_entry/controller/journal_entry_controller.dart';
 import 'package:emotijournal/app/modules/journal_entry/dialogs/generating_response_dialog.dart';
 import 'package:emotijournal/generated/assets.dart';
@@ -26,7 +27,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         title: Text(
-          'Title Text',
+          controller.generatedJournal.value.title,
           textScaler: const TextScaler.linear(1),
           style: AppTextStyles.medium.copyWith(
             fontSize: 20.sp,
@@ -35,7 +36,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
         ),
         leading: CupertinoButton(
           onPressed: () {
-            Get.back();
+            Get.offAll(() => HomePage(),transition: Transition.fade,duration: 850.milliseconds);
           },
           minSize: 0,
           padding: EdgeInsets.zero,
@@ -55,7 +56,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
           ),
           color: AppColors.white,
         ),
-        padding: EdgeInsets.symmetric(horizontal: 28.w,vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 20.h),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -92,9 +93,8 @@ class ResponseViewPage extends GetView<JournalManagementController> {
                 await Get.dialog(
                   Dialog(
                     child: GeneratingResponseDialog(
-                      duration: 5.seconds,
-                      completionFunction: () {
-                        Get.back();
+                      completionFunction: () async{
+                        await controller.improveJournal();
                       },
                     ),
                   ),
@@ -112,7 +112,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
                   shape: BoxShape.circle,
                   gradient: AppColors.primaryGradient,
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 14.w,vertical: 14.h),
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                 child: Center(
                   child: SvgPicture.asset(
                     Assets.svgSendIcon,
@@ -158,7 +158,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
       child: PageView.builder(
         controller: controller.pageController,
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: controller.generatedJournal.value.quotesList.length,
         itemBuilder: (context, index) {
           return Container(
             margin: EdgeInsets.symmetric(horizontal: 28.w),
@@ -176,7 +176,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Sometime, the greatest of things, takes the longest to happens and demands the ultimate sacrifice for the ultimate rewards.',
+                  controller.generatedJournal.value.quotesList[index].quote,
                   textAlign: TextAlign.center,
                   textScaler: const TextScaler.linear(1),
                   style: AppTextStyles.light.copyWith(
@@ -188,7 +188,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
                 SizedBox(
                   width: Get.width,
                   child: Text(
-                    'Quoter',
+                    controller.generatedJournal.value.quotesList[index].author,
                     textAlign: TextAlign.end,
                     textScaler: const TextScaler.linear(1),
                     style: AppTextStyles.light.copyWith(
@@ -208,7 +208,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
   Widget _buildQuotesPageIndicator(BuildContext context) {
     return SmoothPageIndicator(
       controller: controller.pageController,
-      count: 10,
+      count: controller.generatedJournal.value.quotesList.length,
       effect: ScrollingDotsEffect(
         activeStrokeWidth: 2.6,
         activeDotScale: 1.3,
@@ -249,7 +249,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
           ),
           12.verticalSpace,
           Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer convallis mi cursus metus iaculis, non tempor ligula blandit. Ut bibendum elit quis augue tincidunt, eget vestibulum est mollis. Sed in efficitur sapien. Fusce nec semper nisl, a cursus mi. Curabitur quis orci nec lorem porta tempor. Fusce gravida auctor urna eu volutpat. Mauris sit amet velit sed eros tristique congue ut id nisl. Maecenas viverra hendrerit placerat.',
+            controller.generatedJournal.value.queries.first.analysis,
             textAlign: TextAlign.start,
             textScaler: const TextScaler.linear(1),
             style: AppTextStyles.light.copyWith(
@@ -291,18 +291,14 @@ class ResponseViewPage extends GetView<JournalManagementController> {
           crossAxisAlignment: WrapCrossAlignment.start,
           spacing: 5.w,
           runSpacing: 5.h,
-          children: [
-            _buildJournalMoodPill(context: context, pillText: "Angry"),
-            _buildJournalMoodPill(context: context, pillText: "Hate"),
-            _buildJournalMoodPill(context: context, pillText: "Rage"),
-            _buildJournalMoodPill(context: context, pillText: "Happiness"),
-          ],
+          children:
+              controller.generatedJournal.value.emotionsList.map((element) => _buildJournalMoodPill(context: context, pillText: element)).toList(),
         ),
       ),
     );
   }
 
-  Widget _buildJournalMoodPill({required BuildContext context,required String pillText}) {
+  Widget _buildJournalMoodPill({required BuildContext context, required String pillText}) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

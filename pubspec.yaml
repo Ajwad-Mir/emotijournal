@@ -36,7 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^4.6.6
   get_storage: ^2.1.1
-  openai_dart: ^0.4.2+2
   flutter_svg: ^2.0.10+1
   simple_gradient_text: ^1.3.0
   gradient_borders: ^1.0.1

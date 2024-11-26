@@ -24,13 +24,13 @@ class NoNotesWidget extends StatelessWidget {
           ),
           10.verticalSpace,
           SizedBox(
-            width: Get.width * 0.75,
+            width: Get.width * 0.65,
             child: Text(
               "Your mental journal is ready, but today's emotions are on pause. Start fresh with a thought, a dream, or just a moment.",
               textScaler: TextScaler.linear(1),
               textAlign: TextAlign.center,
               style: AppTextStyles.medium.copyWith(
-                fontSize: 16.sp,
+                fontSize: 14.sp,
                 color: (Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor).withAlpha((0.5 * 255).round()),
               ),
             ),

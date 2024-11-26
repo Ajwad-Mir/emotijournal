@@ -17,7 +17,6 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
   await JournalAI.initialize();
-  await JournalAI.getFirstResponse('I feel a bit troubled about my job. it feels like everyone is ignoring me and not even taking my opinion to any conversation.I feel alienated from my company and colleagues');
   runApp(const MyApp());
 }
 
