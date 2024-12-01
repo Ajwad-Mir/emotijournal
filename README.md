@@ -1,4 +1,4 @@
-[!Alt Text](https://github.com/Ajwad-Mir/emotijournal/blob/master/Designs/cover.png)
+![Alt Text](https://github.com/Ajwad-Mir/emotijournal/blob/master/Designs/cover.png)
 **App Name: EmotiJournal**  
 *(Your AI-Powered Emotional Wellness Partner)*  
 
