@@ -1,4 +1,4 @@
-![Alt text](![cover.png](Designs%2Fcover.png))
+((Designs%2Fcover.png))
 **App Name: EmotiJournal**  
 *(Your AI-Powered Emotional Wellness Partner)*  
 
