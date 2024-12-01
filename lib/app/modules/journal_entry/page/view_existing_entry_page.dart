@@ -1,4 +1,8 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:emotijournal/app/models/journal_model.dart';
+import 'package:emotijournal/app/modules/journal_entry/controller/journal_entry_controller.dart';
+import 'package:emotijournal/app/modules/journal_entry/views/query_history_section.dart';
+import 'package:emotijournal/app/modules/journal_entry/widget/animated_segmented_control.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,12 +11,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ViewExistingEntryPage extends StatelessWidget {
+class ViewExistingEntryPage extends GetView<JournalManagementController> {
   final JournalModel selectedJournalEntry;
-  final pageController = PageController();
-  final textController = TextEditingController();
 
-  ViewExistingEntryPage({super.key, required this.selectedJournalEntry});
+  const ViewExistingEntryPage({super.key, required this.selectedJournalEntry});
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +58,43 @@ class ViewExistingEntryPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _buildQuotesList(context),
+                FadeInUp(child: _buildQuotesList(context)),
                 20.verticalSpace,
-                _buildQuotesPageIndicator(context),
+                FadeInUp(delay: 100.milliseconds, child: _buildQuotesPageIndicator(context)),
                 20.verticalSpace,
-                _buildEmotionAnalysis(context),
-                25.verticalSpace,
-                _buildEmotionPillHeader(context),
-                10.verticalSpace,
-                _buildEmotionPillRow(context),
+                AnimatedSegmentedControl(
+                  segments: const [
+                    'Current Analysis',
+                    'Previous Analysis',
+                  ],
+                  onSegmentSelected: (val) {
+                    controller.selectedTabBarIndex.value = val;
+                  },
+                ),
                 20.verticalSpace,
+                AnimatedSwitcher(
+                  duration: 850.milliseconds,
+                  transitionBuilder: (child, transition) {
+                    return FadeTransition(
+                      opacity: transition,
+                      child: child,
+                    );
+                  },
+                  child: Obx(
+                        () => controller.selectedTabBarIndex.value == 0
+                        ? Column(
+                      children: [
+                        FadeInUp(delay: 200.milliseconds, child: _buildEmotionAnalysis(context)),
+                        25.verticalSpace,
+                        FadeInUp(delay: 300.milliseconds, child: _buildEmotionPillHeader(context)),
+                        10.verticalSpace,
+                        FadeInUp(delay: 400.milliseconds, child: _buildEmotionPillRow(context)),
+                        20.verticalSpace,
+                      ],
+                    )
+                        : QueryHistorySection(journal: selectedJournalEntry,),
+                  ),
+                ),
               ],
             ),
           ),
@@ -77,9 +106,9 @@ class ViewExistingEntryPage extends StatelessWidget {
   Widget _buildQuotesList(BuildContext context) {
     return SizedBox(
       width: Get.width,
-      height: 410.h,
+      height: 250.h,
       child: PageView.builder(
-        controller: pageController,
+        controller: controller.pageController,
         scrollDirection: Axis.horizontal,
         itemCount: selectedJournalEntry.quotesList.length,
         itemBuilder: (context, index) {
@@ -130,7 +159,7 @@ class ViewExistingEntryPage extends StatelessWidget {
 
   Widget _buildQuotesPageIndicator(BuildContext context) {
     return SmoothPageIndicator(
-      controller: pageController,
+      controller: controller.pageController,
       count: selectedJournalEntry.quotesList.length,
       effect: ScrollingDotsEffect(
         activeStrokeWidth: 2.6,

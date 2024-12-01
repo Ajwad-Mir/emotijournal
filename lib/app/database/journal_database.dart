@@ -8,11 +8,6 @@ class JournalDatabase {
   JournalDatabase._();
 
   static Future<List<JournalModel>> getAllJournalEntries() async {
-    final ref =
-        await FirebaseFirestore.instance.collection('users').doc(Get.find<SessionService>().userToken.value).collection('journal').limit(1).get();
-    if (ref.docs.isEmpty) {
-      return <JournalModel>[];
-    }
     final journalRef = await FirebaseFirestore.instance
         .collection('users')
         .doc(Get.find<SessionService>().userToken.value)
@@ -31,32 +26,29 @@ class JournalDatabase {
   }
 
   static Future<JournalModel> createNewJournalEntry(JournalModel response) async {
-    String id = "";
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(Get.find<SessionService>().userToken.value)
+        .doc(Get.find<SessionService>().sessionUser.value.userID)
         .collection('journal')
         .add(response.toMap())
         .then(
       (value) async {
-        id = value.id;
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(Get.find<SessionService>().userToken.value)
+            .doc(Get.find<SessionService>().sessionUser.value.userID)
             .collection('journal')
             .doc(value.id)
             .update({'id': value.id});
+        response = response.copyWith(id: value.id);
       },
     );
-
-    response = response.copyWith(id: id);
     return response;
   }
 
   static Future<JournalModel> updateJournalEntry(JournalModel response) async {
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(Get.find<SessionService>().userToken.value)
+        .doc(Get.find<SessionService>().sessionUser.value.userID)
         .collection('journal')
         .doc(response.id)
         .update(response.toMap());

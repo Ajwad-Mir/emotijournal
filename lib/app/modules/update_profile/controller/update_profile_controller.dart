@@ -1,4 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import 'package:emotijournal/app/database/users_database.dart';
+import 'package:emotijournal/app/modules/journal_entry/dialogs/generating_response_dialog.dart';
+import 'package:emotijournal/app/services/session_service.dart';
+import 'package:emotijournal/global/constants/app_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -32,4 +37,41 @@ class UpdateProfileController extends GetxController {
     }
   }
 
+  Future<void> updateExistingUser() async {
+    await Get.dialog(
+      Dialog(
+        child: GeneratingResponseDialog(
+          completionFunction: () async {
+            final image = await xFileToBase64(imageFile.value!);
+            final updatedUser = Get.find<SessionService>().sessionUser.value.copyWith(
+              fullName: fullNameController.text.isEmpty ? Get.find<SessionService>().sessionUser.value.fullName : fullNameController.text,
+              emailAddress: emailController.text.isEmpty ? Get.find<SessionService>().sessionUser.value.emailAddress : emailController.text,
+              password: passwordController.text.isEmpty ? Get.find<SessionService>().sessionUser.value.password : passwordController.text,
+              profileImageLink: image,
+            );
+            final result = UsersDatabase.updateUser(updatedUserData: updatedUser);
+
+          },
+        ),
+      ),
+      barrierDismissible: false,
+      barrierColor: AppColors.black.withOpacity(0.75),
+    );
+
+  }
+
+  Future<String> xFileToBase64(XFile file) async {
+    try {
+      // Read the file as bytes
+      final bytes = await file.readAsBytes();
+
+      // Encode the bytes to Base64
+      final base64String = base64Encode(bytes);
+
+      return base64String;
+    } catch (e) {
+      print("Error converting XFile to Base64: $e");
+      return "";
+    }
+  }
 }

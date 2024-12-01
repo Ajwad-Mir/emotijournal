@@ -47,7 +47,7 @@ class HomePage extends GetView<HomeController> {
         floatingActionButton: CupertinoButton(
           onPressed: () {
             Get.to(
-              () => const CreateNewEntryPage(),
+              () => CreateNewEntryPage(),
               transition: Transition.fade,
               duration: 850.milliseconds,
             );

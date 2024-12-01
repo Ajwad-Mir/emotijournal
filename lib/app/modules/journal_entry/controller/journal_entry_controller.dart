@@ -7,12 +7,13 @@ import 'package:get/get.dart';
 
 class JournalManagementController extends GetxController {
   final emotionsTextController = TextEditingController();
-  final currentTextAlign = TextAlign.center.obs;
   final isListening = false.obs;
   final generatedJournal = JournalModel.empty().obs;
 
   final pageController = PageController();
   final textController = TextEditingController();
+
+  final selectedTabBarIndex = 0.obs;
 
   Future<void> createNewJournal() async {
     final journal = await JournalAI.getFirstResponse(emotionsTextController.text);

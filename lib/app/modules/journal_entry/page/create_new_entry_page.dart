@@ -12,51 +12,78 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class CreateNewEntryPage extends GetView<JournalManagementController> {
-  const CreateNewEntryPage({super.key});
+  CreateNewEntryPage({super.key});
+
+  final SpeechToText speech = SpeechToText();
+
+  void _startListening() async {
+    await speech.initialize();
+    controller.isListening.value = true;
+    await speech.listen(
+      listenFor: 2.minutes,
+      listenOptions: SpeechListenOptions(
+        partialResults: false,
+        cancelOnError: false,
+        listenMode: ListenMode.dictation,
+      ),
+      onResult: (val) {
+        controller.emotionsTextController.text = val.recognizedWords;
+      },
+
+    );
+  }
+
+  void _stopListening() async {
+    await speech.stop();
+    controller.isListening.value = false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
+    return GetBuilder<JournalManagementController>(builder: (_) {
+      return Scaffold(
         backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        leading: CupertinoButton(
-          onPressed: () {
-            Get.back();
-          },
-          minSize: 0,
-          padding: EdgeInsets.zero,
-          pressedOpacity: 0.5,
-          child: const Icon(
-            Icons.arrow_back_ios_new,
-            color: AppColors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          leading: CupertinoButton(
+            onPressed: () {
+              Get.back();
+            },
+            minSize: 0,
+            padding: EdgeInsets.zero,
+            pressedOpacity: 0.5,
+            child: const Icon(
+              Icons.arrow_back_ios_new,
+              color: AppColors.white,
+            ),
           ),
         ),
-      ),
-      extendBodyBehindAppBar: true,
-      body: Container(
-        width: Get.width,
-        height: Get.height,
-        decoration: const BoxDecoration(
-          gradient: AppColors.primaryGradient,
-        ),
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildEmotionFieldWidget(context),
-              40.verticalSpace,
-              FadeInUp(delay: 200.milliseconds, child: _buildAnalyzeButton()),
-              50.verticalSpace
-            ],
+        extendBodyBehindAppBar: true,
+        body: Container(
+          width: Get.width,
+          height: Get.height,
+          decoration: const BoxDecoration(
+            gradient: AppColors.primaryGradient,
+          ),
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildEmotionFieldWidget(context),
+                40.verticalSpace,
+                FadeInUp(delay: 200.milliseconds, child: _buildAnalyzeButton()),
+                50.verticalSpace
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildEmotionFieldWidget(BuildContext context) {
@@ -75,25 +102,17 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
                       fontSize: 20.sp,
                       color: AppColors.white,
                     ),
-                    onChanged: (data) {
-                      if (data.isNotEmpty) {
-                        controller.currentTextAlign.value = TextAlign.start;
-                      } else {
-                        controller.currentTextAlign.value = TextAlign.center;
-                      }
-                      controller.update();
-                    },
                     expands: true,
                     maxLines: null,
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                    textAlign: controller.currentTextAlign.value,
+                    textAlign: TextAlign.center,
                     textAlignVertical: TextAlignVertical.center,
                     textInputAction: TextInputAction.newline,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                       hintText: controller.isListening.isFalse
                           ? "How are you feeling today? You can say what you need to say without worries. This is a safe space just for you."
-                          : "We Are listening to you now. Say your heart’s desire.",
+                          : "We are listening to you now. Say your heart’s desire.",
                       hintStyle: AppTextStyles.medium.copyWith(
                         fontSize: 20.sp,
                         color: AppColors.white.withOpacity(0.75),
@@ -132,7 +151,13 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
               delay: 100.milliseconds,
               child: CupertinoButton(
                   onPressed: () {
-                    controller.isListening.value = !controller.isListening.value;
+                    if (controller.isListening.isTrue) {
+                      _stopListening();
+                      return;
+                    } else {
+                      _startListening();
+                      return;
+                    }
                   },
                   minSize: 0,
                   padding: EdgeInsets.zero,

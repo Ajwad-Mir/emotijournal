@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotijournal/app/database/auth_database.dart';
 import 'package:emotijournal/app/database/users_database.dart';
@@ -8,14 +10,15 @@ import 'package:emotijournal/app/modules/login/pages/login_page.dart';
 import 'package:emotijournal/app/modules/register/controller/register_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 
 class SessionService extends GetxService {
   final sessionUser = UserModel.empty().obs;
   final userToken = ''.obs;
 
   Future<void> getUserFromToken() async {
-    userToken.value = GetStorage().read<String>('userToken').toString();
-    if (userToken.value.isEmpty) {
+    final token = GetStorage().read('userToken');
+    if (token == null || token.toString().isEmpty) {
       Get.offAll(
         () => LoginPage(),
         transition: Transition.cupertino,
@@ -23,10 +26,11 @@ class SessionService extends GetxService {
       );
       return;
     }
+    userToken.value = token;
     final user = await UsersDatabase.getUserFromID(userToken.value);
     if (user == UserModel.empty()) {
       Get.offAll(
-            () => LoginPage(),
+        () => LoginPage(),
         transition: Transition.cupertino,
         duration: 850.milliseconds,
       );
@@ -34,7 +38,7 @@ class SessionService extends GetxService {
     }
     sessionUser.value = user;
     Get.offAll(
-          () => HomePage(),
+      () => HomePage(),
       transition: Transition.cupertino,
       duration: 850.milliseconds,
     );
@@ -67,15 +71,13 @@ class SessionService extends GetxService {
     if (user != null) {
       final userExists = await UsersDatabase.checkIfUserExists(user.user!.uid);
       if (userExists == false) {
+        final image = await networkImageToBase64(user.user!.photoURL.toString());
         await UsersDatabase.createUser(
-          newUserData: UserModel(
-            userID: user.user!.uid,
+          newUserData: UserModel.createNewUser(
             fullName: user.user!.displayName.toString(),
             emailAddress: user.user!.email.toString(),
             password: "",
-            profileImageLink: user.user!.photoURL.toString(),
-            createdAt: Timestamp.fromDate(user.user!.metadata.creationTime!),
-            updatedAt: Timestamp.now(),
+            profileImageLink: image,
           ),
         );
       } else {
@@ -111,12 +113,14 @@ class SessionService extends GetxService {
   Future<void> createNewUserProvider({required String providerName}) async {
     final resData = await AuthDatabase.createNewAccountProvider(providerName: providerName);
     if (resData != null) {
+      final image = await networkImageToBase64(resData.user!.photoURL!);
       await UsersDatabase.createUser(
         newUserData: UserModel.createNewUser(
-            fullName: resData.user!.displayName.toString(),
-            emailAddress: resData.user!.email.toString(),
-            password: "",
-            profileImageLink: resData.user!.photoURL!),
+          fullName: resData.user!.displayName.toString(),
+          emailAddress: resData.user!.email.toString(),
+          password: "",
+          profileImageLink: image,
+        ),
       );
       Get.offAll(
         () => HomePage(),
@@ -124,5 +128,11 @@ class SessionService extends GetxService {
         duration: 850.milliseconds,
       );
     }
+  }
+
+  Future<String> networkImageToBase64(String imageUrl) async {
+    http.Response response = await http.get(Uri.parse(imageUrl));
+    final bytes = response.bodyBytes;
+    return base64Encode(bytes);
   }
 }

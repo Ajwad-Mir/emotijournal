@@ -1,7 +1,9 @@
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class CustomizedTextFormField extends StatefulWidget {
@@ -22,8 +24,11 @@ class CustomizedTextFormField extends StatefulWidget {
   final Color? prefixIconColor;
   final InputBorder? border;
   final InputBorder? focusedBorder;
+  final String? suffixIcon;
+  final Color? suffixIconColor;
   final Color fillColor;
   final VoidCallback? onPressed;
+  final VoidCallback? onSuffixIconClicked;
   final FormFieldValidator<String>? validator;
 
   const CustomizedTextFormField({
@@ -43,6 +48,9 @@ class CustomizedTextFormField extends StatefulWidget {
     this.isReadOnly = false,
     this.prefixIcon,
     this.prefixIconColor,
+    this.suffixIcon,
+    this.suffixIconColor,
+    this.onSuffixIconClicked,
     this.maxHeight = double.infinity,
     this.border,
     this.focusedBorder,
@@ -98,6 +106,57 @@ class _CustomizedTextFormFieldState extends State<CustomizedTextFormField> {
             maxHeight: widget.maxHeight,
           ),
 
+          prefixIcon: widget.prefixIcon != null
+              ? Container(
+            width: 20.w,
+            height: 20.h,
+            margin: EdgeInsets.symmetric(horizontal: 15.w),
+            child: SvgPicture.asset(
+              widget.prefixIcon.toString(),
+              colorFilter: ColorFilter.mode(
+                widget.prefixIconColor ?? (Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black),
+                BlendMode.srcIn,
+              ),
+              fit: BoxFit.scaleDown,
+            ),
+          )
+              : null,
+          prefixIconConstraints: BoxConstraints(maxHeight: 80.h, maxWidth: 80.w),
+          suffixIcon: widget.suffixIcon != null
+              ? widget.onSuffixIconClicked == null
+              ? Container(
+            width: 20.w,
+            height: 20.h,
+            margin: EdgeInsets.symmetric(horizontal: 15.w),
+            child: SvgPicture.asset(
+              widget.suffixIcon.toString(),
+              colorFilter: ColorFilter.mode(
+                widget.suffixIconColor ?? (Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black),
+                BlendMode.srcIn,
+              ),
+              fit: BoxFit.scaleDown,
+            ),
+          )
+              : CupertinoButton(
+            onPressed: widget.onSuffixIconClicked,
+            minSize: 0,
+            padding: EdgeInsets.zero,
+            child: Container(
+              width: 20.w,
+              height: 20.h,
+              margin: EdgeInsets.symmetric(horizontal: 15.w),
+              child: SvgPicture.asset(
+                widget.suffixIcon.toString(),
+                colorFilter: ColorFilter.mode(
+                  widget.suffixIconColor ?? (Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black),
+                  BlendMode.srcIn,
+                ),
+                fit: BoxFit.scaleDown,
+              ),
+            ),
+          )
+              : null,
+          suffixIconConstraints: BoxConstraints(maxHeight: 80.h, maxWidth: 80.w),
           border: widget.border ??
               OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
