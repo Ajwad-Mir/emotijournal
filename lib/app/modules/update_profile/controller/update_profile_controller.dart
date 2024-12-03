@@ -26,7 +26,7 @@ class UpdateProfileController extends GetxController {
         imageQuality: 100,
       );
       if (image != null) {
-        imageFile.value = XFile(image.path);
+        setImageFile(image);
       }
     } catch (e) {
       Get.snackbar(
@@ -49,7 +49,7 @@ class UpdateProfileController extends GetxController {
               password: passwordController.text.isEmpty ? Get.find<SessionService>().sessionUser.value.password : passwordController.text,
               profileImageLink: image,
             );
-            final result = UsersDatabase.updateUser(updatedUserData: updatedUser);
+            UsersDatabase.updateUser(updatedUserData: updatedUser);
 
           },
         ),
@@ -68,9 +68,9 @@ class UpdateProfileController extends GetxController {
       // Encode the bytes to Base64
       final base64String = base64Encode(bytes);
 
-      return base64String;
+      return "data:image/png;base64,$base64String";
     } catch (e) {
-      print("Error converting XFile to Base64: $e");
+      debugPrint("Error converting XFile to Base64: $e");
       return "";
     }
   }

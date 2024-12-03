@@ -112,19 +112,17 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
               ),
             ),
             37.verticalSpace,
-            _buildRegisterButton(context),
+            _buildUpdateButton(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildRegisterButton(BuildContext context) {
+  Widget _buildUpdateButton(BuildContext context) {
     return CupertinoButton(
       onPressed: () async {
-        // if (controller.registerFormKey.currentState!.validate()) {
-        //   await Get.find<SessionService>().createNewUserSimple();
-        // }
+        await Get.find<UpdateProfileController>().updateExistingUser();
       },
       minSize: 0,
       pressedOpacity: 0.5,

@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String emotijournalKeys = 'keys.env';
   static const String fontsOFL = 'assets/fonts/OFL.txt';
   static const String fontsPoppinsBlack = 'assets/fonts/Poppins-Black.ttf';
   static const String fontsPoppinsBold = 'assets/fonts/Poppins-Bold.ttf';
@@ -18,9 +19,11 @@ class Assets {
   static const String svgAddImage = 'assets/svg/add_image.svg';
   static const String svgAnalyze = 'assets/svg/analyze.svg';
   static const String svgAppleIcon = 'assets/svg/apple_icon.svg';
+  static const String svgCamera = 'assets/svg/camera.svg';
   static const String svgDarkLogo = 'assets/svg/dark_logo.svg';
   static const String svgDarkTheme = 'assets/svg/dark_theme.svg';
   static const String svgEditUser = 'assets/svg/edit_user.svg';
+  static const String svgGallery = 'assets/svg/gallery.svg';
   static const String svgGoogleIcon = 'assets/svg/google_icon.svg';
   static const String svgLightLogo = 'assets/svg/light_logo.svg';
   static const String svgLightTheme = 'assets/svg/light_theme.svg';

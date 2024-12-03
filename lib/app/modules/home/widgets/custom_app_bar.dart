@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:emotijournal/app/common_widgets/cached_memory_image_widget.dart';
 import 'package:emotijournal/app/modules/home/controller/home_controller.dart';
 import 'package:emotijournal/app/modules/settings/page/settings_page.dart';
 import 'package:emotijournal/app/modules/update_profile/pages/update_profile_page.dart';
@@ -12,7 +12,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class CustomAppBar extends GetView<HomeController> {
@@ -117,32 +116,10 @@ class CustomAppBar extends GetView<HomeController> {
                     fit: BoxFit.contain,
                   ),
                 )
-              : CachedNetworkImage(
-                  imageUrl: Get.find<SessionService>().sessionUser.value.profileImageLink,
-                  imageBuilder: (context, imageProvider) => Container(
-                    width: 70.w,
-                    height: 70.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: Colors.white10,
-                    highlightColor: Colors.white24,
-                    child: Container(
-                      width: 70.w,
-                      height: 70.h,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Icon(
-                    Icons.error,
-                  ),
+              : CachedBase64Image(
+                  base64String: Get.find<SessionService>().sessionUser.value.profileImageLink,
+                  width: 70.w,
+                  height: 70.h,
                 ),
           20.horizontalSpace,
           Padding(
@@ -239,31 +216,7 @@ class CustomAppBar extends GetView<HomeController> {
                         fit: BoxFit.contain,
                       ),
                     )
-                  : CachedNetworkImage(
-                      imageUrl: Get.find<SessionService>().sessionUser.value.profileImageLink,
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 40.w,
-                        height: 40.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: Colors.white10,
-                        highlightColor: Colors.white24,
-                        child: Container(
-                          width: 40.w,
-                          height: 40.h,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
+                  : CachedBase64Image(base64String: Get.find<SessionService>().sessionUser.value.profileImageLink),
               12.horizontalSpace,
               Text(
                 Get.find<SessionService>().sessionUser.value.fullName,

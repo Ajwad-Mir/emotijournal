@@ -18,15 +18,12 @@ class UsersDatabase {
 
   static Future<void> updateUser({required UserModel updatedUserData}) async {
     await FirebaseFirestore.instance.collection('users').doc(updatedUserData.userID).update(updatedUserData.toMap());
-    Get
-        .find<SessionService>()
-        .sessionUser
-        .value = updatedUserData;
+    Get.find<SessionService>().sessionUser.value = updatedUserData;
   }
 
-  static Future<UserModel> getUserFromID(String uid) async{
+  static Future<UserModel> getUserFromID(String uid) async {
     final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    if(doc.exists == false) {
+    if (doc.exists == false) {
       return UserModel.empty();
     }
     return UserModel.fromMap(document: doc);

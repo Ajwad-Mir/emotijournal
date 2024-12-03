@@ -71,13 +71,17 @@ class SessionService extends GetxService {
     if (user != null) {
       final userExists = await UsersDatabase.checkIfUserExists(user.user!.uid);
       if (userExists == false) {
-        final image = await networkImageToBase64(user.user!.photoURL.toString());
+        final image = await fetchAndConvertImageToDataUrl(user.user!.photoURL!);
+        print(image);
         await UsersDatabase.createUser(
-          newUserData: UserModel.createNewUser(
+          newUserData: UserModel(
+            userID: user.user!.uid,
             fullName: user.user!.displayName.toString(),
             emailAddress: user.user!.email.toString(),
             password: "",
             profileImageLink: image,
+            createdAt: Timestamp.now(),
+            updatedAt: Timestamp.now(),
           ),
         );
       } else {
@@ -113,13 +117,17 @@ class SessionService extends GetxService {
   Future<void> createNewUserProvider({required String providerName}) async {
     final resData = await AuthDatabase.createNewAccountProvider(providerName: providerName);
     if (resData != null) {
-      final image = await networkImageToBase64(resData.user!.photoURL!);
+      final image = await fetchAndConvertImageToDataUrl(resData.user!.photoURL!);
+      print(image);
       await UsersDatabase.createUser(
-        newUserData: UserModel.createNewUser(
+        newUserData: UserModel(
+          userID: resData.user!.uid,
           fullName: resData.user!.displayName.toString(),
           emailAddress: resData.user!.email.toString(),
           password: "",
           profileImageLink: image,
+          createdAt: Timestamp.now(),
+          updatedAt: Timestamp.now(),
         ),
       );
       Get.offAll(
@@ -130,9 +138,25 @@ class SessionService extends GetxService {
     }
   }
 
-  Future<String> networkImageToBase64(String imageUrl) async {
-    http.Response response = await http.get(Uri.parse(imageUrl));
-    final bytes = response.bodyBytes;
-    return base64Encode(bytes);
+  Future<String> fetchAndConvertImageToDataUrl(String imageUrl) async {
+    try {
+      // Fetch the image from the network
+      final response = await http.get(Uri.parse(imageUrl));
+
+      if (response.statusCode == 200) {
+        // Convert the response body (image) to bytes
+        List<int> imageBytes = response.bodyBytes;
+
+        // Encode the bytes to base64
+        String base64Encoded = base64Encode(imageBytes);
+
+        // Return the data URL string
+        return 'data:image/png;base64,$base64Encoded'; // Assuming the image is PNG
+      } else {
+        throw Exception('Failed to load image');
+      }
+    } catch (e) {
+      return '';  // Return empty string in case of error
+    }
   }
 }
