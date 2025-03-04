@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:emotijournal/firebase_options.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuthProviderService {
   GoogleSignInAccount? googleUser;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(clientId: Platform.isIOS ? DefaultFirebaseOptions.ios.iosClientId : DefaultFirebaseOptions.android.androidClientId);
 
   Future<UserCredential?> signInWithGoogle() async {
     try {

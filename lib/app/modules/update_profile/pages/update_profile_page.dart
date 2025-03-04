@@ -88,7 +88,7 @@ class UpdateProfilePage extends GetView<UpdateProfileController> {
               width: 1.0.w,
               color: AppColors.white,
             ),
-            color: AppColors.black.withOpacity(0.76),
+            color: AppColors.black.withAlpha(76),
           ),
           clipBehavior: Clip.none,
           child: Center(
@@ -109,7 +109,7 @@ class UpdateProfilePage extends GetView<UpdateProfileController> {
                 width: 1.0.w,
                 color: AppColors.white,
               ),
-              color: AppColors.black.withOpacity(0.76),
+              color: AppColors.black.withAlpha(76),
               image: DecorationImage(
                 image: MemoryImage(base64Decode(Get.find<SessionService>().sessionUser.value.profileImageLink.split(",").last)),
                 fit: BoxFit.cover,
@@ -129,7 +129,7 @@ class UpdateProfilePage extends GetView<UpdateProfileController> {
                           child: ImageSelectionWidget(),
                         ),
                         barrierDismissible: false,
-                        barrierColor: AppColors.black.withOpacity(0.75),
+                        barrierColor: AppColors.black.withAlpha(75),
                       );
                     },
                     minSize: 0,
@@ -138,7 +138,7 @@ class UpdateProfilePage extends GetView<UpdateProfileController> {
                       width: 60.w,
                       height: 60.h,
                       decoration: BoxDecoration(
-                        color: AppColors.black.withOpacity(0.76),
+                        color: AppColors.black.withAlpha(76),
                         shape: BoxShape.circle,
                         border: Border.all(
                           width: 1.0.w,
@@ -168,7 +168,7 @@ class UpdateProfilePage extends GetView<UpdateProfileController> {
                 width: 1.0.w,
                 color: AppColors.white,
               ),
-              color: AppColors.black.withOpacity(0.76),
+              color: AppColors.black.withAlpha(76),
               image: DecorationImage(
                 image: FileImage(File(controller.imageFile.value!.path)),
                 fit: BoxFit.cover,
@@ -188,7 +188,7 @@ class UpdateProfilePage extends GetView<UpdateProfileController> {
                           child: ImageSelectionWidget(),
                         ),
                         barrierDismissible: false,
-                        barrierColor: AppColors.black.withOpacity(0.75),
+                        barrierColor: AppColors.black.withAlpha(75),
                       );
                     },
                     minSize: 0,
@@ -197,7 +197,7 @@ class UpdateProfilePage extends GetView<UpdateProfileController> {
                       width: 60.w,
                       height: 60.h,
                       decoration: BoxDecoration(
-                        color: AppColors.black.withOpacity(0.76),
+                        color: AppColors.black.withAlpha(76),
                         shape: BoxShape.circle,
                         border: Border.all(
                           width: 1.0.w,

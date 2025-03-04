@@ -4,7 +4,7 @@ import 'package:emotijournal/app/models/journal_response_model.dart';
 class JournalModel {
   final String id;
   final String title;
-  final List<String> emotionsList;
+  final List<Emotion> emotionsList;
   final List<Quotes> quotesList;
   final List<Queries> queries;
   final DateTime createdAt;
@@ -24,7 +24,7 @@ class JournalModel {
     return {
       'id': id,
       'title': title,
-      'emotionsList': emotionsList,
+      'emotionsList': emotionsList.map((emotion) => emotion.toJson()).toList(),
       'quotesList': quotesList.map((quote) => quote.toMap()).toList(),
       'newQueries': queries.map((query) => query.toMap()).toList(),
       'createdAt': Timestamp.fromDate(createdAt),
@@ -36,7 +36,7 @@ class JournalModel {
     return JournalModel(
       id: map['id'] ?? '',
       title: map['title'] ?? '',
-      emotionsList: List<String>.from(map['emotionsList'] ?? []),
+      emotionsList: List<Emotion>.from(map['emotionsList']?.map((emotionMap) => Emotion.fromJson(emotionMap))),
       quotesList: List<Quotes>.from(
         map['quotesList']?.map((quoteMap) => Quotes.fromMap(quoteMap)) ?? [],
       ),
@@ -81,7 +81,7 @@ class JournalModel {
   JournalModel copyWith({
     String? id,
     String? title,
-    List<String>? emotionsList,
+    List<Emotion>? emotionsList,
     List<Queries>? queries,
     List<Quotes>? quotesList,
     DateTime? updatedAt,

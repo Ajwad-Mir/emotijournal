@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:emotijournal/app/modules/journal_entry/controller/journal_entry_controller.dart';
 import 'package:emotijournal/app/modules/journal_entry/dialogs/generating_response_dialog.dart';
@@ -108,6 +110,7 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
                     textAlign: TextAlign.center,
                     textAlignVertical: TextAlignVertical.center,
                     textInputAction: TextInputAction.newline,
+                    cursorColor: AppColors.white,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                       hintText: controller.isListening.isFalse
@@ -115,27 +118,27 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
                           : "We are listening to you now. Say your heart’s desire.",
                       hintStyle: AppTextStyles.medium.copyWith(
                         fontSize: 20.sp,
-                        color: AppColors.white.withOpacity(0.75),
+                        color: AppColors.white.withValues(alpha: 0.8),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.r),
                         borderSide: BorderSide(
-                          color: AppColors.white.withOpacity(0.85),
-                          width: 1.5.w,
+                          color: AppColors.white.withValues(alpha: 0.6),
+                          width: 2.w,
                         ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.r),
                         borderSide: BorderSide(
-                          color: AppColors.white.withOpacity(0.85),
-                          width: 1.5.w,
+                          color: AppColors.white.withValues(alpha: 0.6),
+                          width: 2.w,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.r),
                         borderSide: BorderSide(
                           color: AppColors.white,
-                          width: 2.5.w,
+                          width: 3.w,
                         ),
                       ),
                     ),
@@ -167,7 +170,7 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
                         ? RippleAnimation(
                             duration: 2.seconds,
                             repeat: true,
-                            color: AppColors.white.withOpacity(0.1),
+                            color: AppColors.white.withAlpha(10),
                             ripplesCount: 4,
                             delay: 500.milliseconds,
                             minRadius: 30.w,
@@ -234,7 +237,7 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
               ),
             ),
             barrierDismissible: false,
-            barrierColor: AppColors.black.withOpacity(0.75),
+            barrierColor: AppColors.black.withAlpha(75),
           );
         } else {
           Fluttertoast.showToast(

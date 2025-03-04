@@ -58,8 +58,8 @@ class LoginSection extends GetView<LoginController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withOpacity(0.5)
-                          : AppColors.lightTextColor.withOpacity(0.5),
+                          ? AppColors.darkTextColor.withAlpha(50)
+                          : AppColors.lightTextColor.withAlpha(50),
                     ),
                     validator: (value) {
                       if(value.toString().isEmpty) {
@@ -103,8 +103,8 @@ class LoginSection extends GetView<LoginController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withOpacity(0.5)
-                          : AppColors.lightTextColor.withOpacity(0.5),
+                          ? AppColors.darkTextColor.withAlpha(50)
+                          : AppColors.lightTextColor.withAlpha(50),
                     ),
                     validator: (value) {
                       if(value.toString().isEmpty) {

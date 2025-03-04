@@ -19,7 +19,7 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
         width: Get.width,
         padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.w),
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.white.withOpacity(0.7), width: 4.w),
+          border: Border.all(color: AppColors.white.withAlpha(70), width: 4.w),
           borderRadius: BorderRadius.circular(15.r),
         ),
         child: Column(
@@ -32,7 +32,7 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
               ),
               hintStyle: AppTextStyles.normal.copyWith(
                 fontSize: 14.sp,
-                color: AppColors.white.withOpacity(0.75),
+                color: AppColors.white.withAlpha(75),
               ),
               hintText: 'Full Name',
               fillColor: Colors.transparent,
@@ -54,7 +54,7 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
               ),
               hintStyle: AppTextStyles.normal.copyWith(
                 fontSize: 14.sp,
-                color: AppColors.white.withOpacity(0.75),
+                color: AppColors.white.withAlpha(75),
               ),
               hintText: 'Email Address',
               fillColor: Colors.transparent,
@@ -76,7 +76,7 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
               ),
               hintStyle: AppTextStyles.normal.copyWith(
                 fontSize: 14.sp,
-                color: AppColors.white.withOpacity(0.75),
+                color: AppColors.white.withAlpha(75),
               ),
               hintText: 'Password',
               fillColor: Colors.transparent,
@@ -98,7 +98,7 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
               ),
               hintStyle: AppTextStyles.normal.copyWith(
                 fontSize: 14.sp,
-                color: AppColors.white.withOpacity(0.75),
+                color: AppColors.white.withAlpha(75),
               ),
               hintText: 'Confirm Password',
               fillColor: Colors.transparent,

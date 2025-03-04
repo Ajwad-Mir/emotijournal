@@ -23,7 +23,7 @@ class _GeneratingResponseDialogState extends State<GeneratingResponseDialog> {
       width: Get.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50.r),
-        color: AppColors.black.withOpacity(0.85),
+        color: AppColors.black.withAlpha(85),
       ),
       padding: EdgeInsets.symmetric(horizontal: 35.w, vertical: 35.h),
       child: Column(
@@ -43,7 +43,7 @@ class _GeneratingResponseDialogState extends State<GeneratingResponseDialog> {
             textAlign: TextAlign.center,
             style: AppTextStyles.semiBold.copyWith(
               fontSize: 16.sp,
-              color: AppColors.white.withOpacity(0.85),
+              color: AppColors.white.withAlpha(85),
             ),
           )
         ],

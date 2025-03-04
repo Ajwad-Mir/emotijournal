@@ -4,6 +4,7 @@ import 'package:emotijournal/app/models/journal_model.dart';
 import 'package:emotijournal/app/modules/home/controller/home_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class JournalManagementController extends GetxController {
   final emotionsTextController = TextEditingController();
@@ -14,6 +15,29 @@ class JournalManagementController extends GetxController {
   final textController = TextEditingController();
 
   final selectedTabBarIndex = 0.obs;
+
+  final SpeechToText speech = SpeechToText();
+
+  void _startListening() async {
+    await speech.initialize();
+    isListening.value = true;
+    await speech.listen(
+      listenFor: 2.minutes,
+      listenOptions: SpeechListenOptions(
+        partialResults: false,
+        cancelOnError: false,
+        listenMode: ListenMode.dictation,
+      ),
+      onResult: (val) {
+        emotionsTextController.text = val.recognizedWords;
+      },
+    );
+  }
+
+  void _stopListening() async {
+    await speech.stop();
+    isListening.value = false;
+  }
 
   Future<void> createNewJournal() async {
     final journal = await JournalAI.getFirstResponse(emotionsTextController.text);
@@ -27,11 +51,21 @@ class JournalManagementController extends GetxController {
   Future<void> improveJournal() async {
     final id = generatedJournal.value.id;
     final journal = await JournalAI.getImprovedResponse(textController.text);
-    generatedJournal.value = JournalModel.fromJournalResponseModel(journal).copyWith(
-      id: id
-    );
+    generatedJournal.value = JournalModel.fromJournalResponseModel(journal).copyWith(id: id);
     generatedJournal.value = await JournalDatabase.updateJournalEntry(generatedJournal.value);
     Get.find<HomeController>().journalList.clear();
     await Get.find<HomeController>().getAllJournalEntries();
+  }
+
+  void handleUserInput() {
+    if (isListening.isTrue) {
+      _stopListening();
+      update();
+      return;
+    } else {
+      _startListening();
+      update();
+      return;
+    }
   }
 }

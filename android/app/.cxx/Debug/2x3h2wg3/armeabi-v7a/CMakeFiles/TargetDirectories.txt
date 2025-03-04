@@ -1,0 +1,2 @@
+C:/Users/Rizwan/Documents/Github/emotijournal/android/app/.cxx/Debug/2x3h2wg3/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Rizwan/Documents/Github/emotijournal/android/app/.cxx/Debug/2x3h2wg3/armeabi-v7a/CMakeFiles/rebuild_cache.dir

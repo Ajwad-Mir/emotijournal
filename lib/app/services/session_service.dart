@@ -49,6 +49,7 @@ class SessionService extends GetxService {
     final user = await AuthDatabase.loginExistingAccountSimple(
         email: Get.find<LoginController>().emailController.text, password: Get.find<LoginController>().passwordController.text);
     if (user != null) {
+      Get.find<SessionService>().userToken.value = user.user!.uid;
       Get.find<SessionService>().sessionUser.value = UserModel(
         userID: user.user!.uid,
         fullName: user.user!.displayName.toString(),
@@ -72,7 +73,7 @@ class SessionService extends GetxService {
       final userExists = await UsersDatabase.checkIfUserExists(user.user!.uid);
       if (userExists == false) {
         final image = await fetchAndConvertImageToDataUrl(user.user!.photoURL!);
-        print(image);
+        Get.find<SessionService>().userToken.value = user.user!.uid;
         await UsersDatabase.createUser(
           newUserData: UserModel(
             userID: user.user!.uid,
@@ -99,6 +100,7 @@ class SessionService extends GetxService {
     final user = await AuthDatabase.createNewAccountSimple(
         email: Get.find<RegisterController>().emailController.text, password: Get.find<RegisterController>().passwordController.text);
     if (user != null) {
+      Get.find<SessionService>().userToken.value = user.user!.uid;
       await UsersDatabase.createUser(
           newUserData: UserModel.createNewUser(
         fullName: Get.find<RegisterController>().fullNameController.text,
@@ -115,15 +117,15 @@ class SessionService extends GetxService {
   }
 
   Future<void> createNewUserProvider({required String providerName}) async {
-    final resData = await AuthDatabase.createNewAccountProvider(providerName: providerName);
-    if (resData != null) {
-      final image = await fetchAndConvertImageToDataUrl(resData.user!.photoURL!);
-      print(image);
+    final user = await AuthDatabase.createNewAccountProvider(providerName: providerName);
+    if (user != null) {
+      final image = await fetchAndConvertImageToDataUrl(user.user!.photoURL!);
+      Get.find<SessionService>().userToken.value = user.user!.uid;
       await UsersDatabase.createUser(
         newUserData: UserModel(
-          userID: resData.user!.uid,
-          fullName: resData.user!.displayName.toString(),
-          emailAddress: resData.user!.email.toString(),
+          userID: user.user!.uid,
+          fullName: user.user!.displayName.toString(),
+          emailAddress: user.user!.email.toString(),
           password: "",
           profileImageLink: image,
           createdAt: Timestamp.now(),

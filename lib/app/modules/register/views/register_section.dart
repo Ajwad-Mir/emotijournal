@@ -51,8 +51,8 @@ class RegisterSection extends GetView<RegisterController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withOpacity(0.5)
-                          : AppColors.lightTextColor.withOpacity(0.5),
+                          ? AppColors.darkTextColor.withAlpha(50)
+                          : AppColors.lightTextColor.withAlpha(50),
                     ),
                     validator: (val) {
                       if (val.toString().isEmpty) {
@@ -83,8 +83,8 @@ class RegisterSection extends GetView<RegisterController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withOpacity(0.5)
-                          : AppColors.lightTextColor.withOpacity(0.5),
+                          ? AppColors.darkTextColor.withAlpha(50)
+                          : AppColors.lightTextColor.withAlpha(50),
                     ),
                     validator: (val) {
                       if (val.toString().isEmpty) {
@@ -115,8 +115,8 @@ class RegisterSection extends GetView<RegisterController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withOpacity(0.5)
-                          : AppColors.lightTextColor.withOpacity(0.5),
+                          ? AppColors.darkTextColor.withAlpha(50)
+                          : AppColors.lightTextColor.withAlpha(50),
                     ),
                     validator: (val) {
                       if (val.toString().isEmpty) {
@@ -155,8 +155,8 @@ class RegisterSection extends GetView<RegisterController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withOpacity(0.5)
-                          : AppColors.lightTextColor.withOpacity(0.5),
+                          ? AppColors.darkTextColor.withAlpha(50)
+                          : AppColors.lightTextColor.withAlpha(50),
                     ),
                     fillColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
                     border: OutlineInputBorder(

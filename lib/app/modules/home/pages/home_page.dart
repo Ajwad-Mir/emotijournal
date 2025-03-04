@@ -84,8 +84,8 @@ class HomePage extends GetView<HomeController> {
       itemBuilder: (context, index) {
         if (controller.isLoading.isTrue) {
           return Shimmer.fromColors(
-            baseColor: (Theme.of(context).brightness == Brightness.light ? AppColors.white : AppColors.black).withOpacity(0.2),
-            highlightColor: (Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black).withOpacity(0.4),
+            baseColor: (Theme.of(context).brightness == Brightness.light ? AppColors.white : AppColors.black).withAlpha(20),
+            highlightColor: (Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black).withAlpha(40),
             direction: ShimmerDirection.ltr,
             period: 850.milliseconds,
             child: Container(
@@ -163,8 +163,8 @@ class HomePage extends GetView<HomeController> {
                   style: AppTextStyles.semiBold.copyWith(
                     fontSize: 12.sp,
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? AppColors.darkTextColor.withOpacity(0.4)
-                        : AppColors.lightTextColor.withOpacity(0.4),
+                        ? AppColors.darkTextColor.withAlpha(40)
+                        : AppColors.lightTextColor.withAlpha(40),
                   ),
                 )
               ],
@@ -179,8 +179,8 @@ class HomePage extends GetView<HomeController> {
                 style: AppTextStyles.normal.copyWith(
                   fontSize: 14.sp,
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? AppColors.darkTextColor.withOpacity(0.75)
-                      : AppColors.lightTextColor.withOpacity(0.75),
+                      ? AppColors.darkTextColor.withAlpha(75)
+                      : AppColors.lightTextColor.withAlpha(75),
                 ),
               ),
             ),
@@ -194,7 +194,7 @@ class HomePage extends GetView<HomeController> {
                 spacing: 5.w,
                 runSpacing: 5.h,
                 children:
-                    controller.journalList[index].emotionsList.map((element) => _buildJournalMoodPill(context: context, pillText: element)).toList(),
+                    controller.journalList[index].emotionsList.map((element) => _buildJournalMoodPill(context: context, pillText: element.emotion)).toList(),
               ),
             )
           ],

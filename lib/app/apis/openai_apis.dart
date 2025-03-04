@@ -7,10 +7,15 @@ class JournalAI {
   JournalAI._();
 
   static String apiKey = "";
+  static String initialQuery = "";
+  static String improvementQuery = "";
 
   static Future<void> initialize() async {
     await dotenv.load(fileName: 'keys.env');
     apiKey = dotenv.get("GOOGLE_AI_API_KEY", fallback: "");
+    initialQuery = dotenv.get("API_QUERY", fallback: "");
+    improvementQuery = dotenv.get("IMPROVEMENT_API_QUERY", fallback: "");
+
   }
 
   static Future<JournalResponseModel> getFirstResponse(String query) async {
@@ -21,7 +26,7 @@ class JournalAI {
           {
             "parts": [
               {
-                "text": "I want you to analyze the user's feelings through the input, understand it and generate your understanding as well your solution for it to how the user can solve it saying you instead of the user, emotions list with basic emotions, a title for it and some quotes that can match the user's feelings. quote and it's author should be separated. also each user query should be stored like this {query and solution}. there can be multiple queries in a list. emotions and quotes are outside queries and should be global. The final result must be in JSON format. also avoid using formatting or points list in your solution text. make it in paragraphs. remove all talks before this and start fresh"
+                "text": initialQuery,
               },
               {
                 "text": query,
@@ -51,7 +56,7 @@ class JournalAI {
             {
               "parts": [
                 {
-                  "text": "Please improve your analysis further with the following user input and generate your understanding as well your solution for it to how the user can solve it by saying you instead of the user, emotions list with basic emotions, a title for it, and some quotes that can match the user's feelings. quote, and its author should be separated. also, each user query should be stored like this {query and solution}. there can be multiple queries in a list. emotions and quotes are outside queries and should be global. The final result must be in JSON format. also, avoid using formatting or a points list in your solution text. make it in paragraphs. also add previous query and solution and use old quotes and emotions if it matches with the new user input given."
+                  "text": improvementQuery,
                 },
                 {
                   "text": query,

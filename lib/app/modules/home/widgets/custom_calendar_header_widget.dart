@@ -268,8 +268,8 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             style: AppTextStyles.medium.copyWith(
                               fontSize: 24.sp,
                               color: Theme.of(context).brightness == Brightness.dark
-                                  ? AppColors.darkTextColor.withOpacity(0.4)
-                                  : AppColors.lightTextColor.withOpacity(0.4),
+                                  ? AppColors.darkTextColor.withAlpha(40)
+                                  : AppColors.lightTextColor.withAlpha(40),
                             ),
                           ),
                           Text(
@@ -278,10 +278,10 @@ class CustomCalendarHeaderWidget extends GetView<HomeController> {
                             style: AppTextStyles.normal.copyWith(
                               fontSize: 16.sp,
                               color: (day.weekday == DateTime.sunday || day.weekday == DateTime.saturday)
-                                  ? Colors.red.withOpacity(0.4)
+                                  ? Colors.red.withAlpha(40)
                                   : Theme.of(context).brightness == Brightness.dark
-                                      ? AppColors.darkTextColor.withOpacity(0.4)
-                                      : AppColors.lightTextColor.withOpacity(0.4),
+                                      ? AppColors.darkTextColor.withAlpha(40)
+                                      : AppColors.lightTextColor.withAlpha(40),
                             ),
                           ),
                         ],

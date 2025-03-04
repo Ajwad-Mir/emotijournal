@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:emotijournal/app/models/journal_model.dart';
 import 'package:emotijournal/app/modules/journal_entry/controller/journal_entry_controller.dart';
@@ -5,6 +7,9 @@ import 'package:emotijournal/app/modules/journal_entry/views/query_history_secti
 import 'package:emotijournal/app/modules/journal_entry/widget/animated_segmented_control.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
+import 'package:emotijournal/global/constants/emotion_colors.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:float_column/float_column.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,18 +86,17 @@ class ViewExistingEntryPage extends GetView<JournalManagementController> {
                     );
                   },
                   child: Obx(
-                        () => controller.selectedTabBarIndex.value == 0
+                        () =>
+                    controller.selectedTabBarIndex.value == 0
                         ? Column(
                       children: [
                         FadeInUp(delay: 200.milliseconds, child: _buildEmotionAnalysis(context)),
                         25.verticalSpace,
-                        FadeInUp(delay: 300.milliseconds, child: _buildEmotionPillHeader(context)),
-                        10.verticalSpace,
-                        FadeInUp(delay: 400.milliseconds, child: _buildEmotionPillRow(context)),
-                        20.verticalSpace,
                       ],
                     )
-                        : QueryHistorySection(journal: selectedJournalEntry,),
+                        : QueryHistorySection(
+                      journal: selectedJournalEntry,
+                    ),
                   ),
                 ),
               ],
@@ -169,7 +173,7 @@ class ViewExistingEntryPage extends GetView<JournalManagementController> {
         radius: 8,
         spacing: 10,
         dotHeight: 12,
-        dotColor: AppColors.white.withOpacity(0.5),
+        dotColor: AppColors.white.withAlpha(50),
         dotWidth: 12,
       ),
     );
@@ -200,81 +204,56 @@ class ViewExistingEntryPage extends GetView<JournalManagementController> {
             ),
           ),
           12.verticalSpace,
-          Text(
-            selectedJournalEntry.queries.first.analysis,
-            textAlign: TextAlign.start,
-            textScaler: const TextScaler.linear(1),
-            style: AppTextStyles.light.copyWith(
-              fontSize: 16.sp,
-              color: AppColors.white,
-            ),
-          )
+          FloatColumn(
+            children: [
+              Floatable(
+                float: FCFloat.end,
+                clear: FCClear.both,
+                clearMinSpacing: 20,
+                padding: EdgeInsets.only(left: 8),
+                child: _buildEmotionPieChartWidget(context),
+              ),
+              WrappableText(
+                text: TextSpan(
+                  text: selectedJournalEntry.queries.last.analysis,
+                  style: AppTextStyles.light.copyWith(
+                    fontSize: 16.sp,
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildEmotionPillHeader(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 28.w),
-      child: SizedBox(
-        width: Get.width,
-        child: Text(
-          'Current Emotions',
-          textAlign: TextAlign.start,
-          textScaler: const TextScaler.linear(1),
-          style: AppTextStyles.medium.copyWith(
-            fontSize: 20.sp,
-            color: AppColors.white,
-          ),
-        ),
-      ),
-    );
-  }
+  Widget _buildEmotionPieChartWidget(BuildContext context) {
+    return SizedBox(
+      width: 150.w,
+      height: 200.h,
+      child: PieChart(
+        PieChartData(
+          sections: selectedJournalEntry.emotionsList
+              .map(
+                (element) =>
+                PieChartSectionData(
+                    value: element.percentage.toDouble() / 100,
+                    showTitle: true,
+                    title: element.emotion,
 
-  Widget _buildEmotionPillRow(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 28.w),
-      child: SizedBox(
-        width: Get.width,
-        child: Wrap(
-          alignment: WrapAlignment.start,
-          runAlignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.start,
-          spacing: 5.w,
-          runSpacing: 5.h,
-          children: selectedJournalEntry.emotionsList.map((element) => _buildJournalMoodPill(context: context, pillText: element)).toList(),
+                    titleStyle: AppTextStyles.bold.copyWith(
+                      fontSize: 16.sp,
+                      color: EmotionColorGenerator.getColorForEmotion(element.emotion).computeLuminance() > 0.5 ? AppColors.black : AppColors.white
+                    ),
+                    color: EmotionColorGenerator.getColorForEmotion(element.emotion)
+                ),
+          )
+              .toList(),
         ),
-      ),
-    );
-  }
 
-  Widget _buildJournalMoodPill({required BuildContext context, required String pillText}) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 6.h),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: Colors.transparent,
-              border: Border.all(
-                color: AppColors.white,
-                width: 1,
-              )),
-          child: Center(
-            child: Text(
-              pillText,
-              softWrap: true,
-              textScaler: const TextScaler.linear(1),
-              style: AppTextStyles.semiBold.copyWith(
-                fontSize: 14.sp,
-                color: AppColors.white,
-              ),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

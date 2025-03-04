@@ -31,7 +31,7 @@ class NoNotesWidget extends StatelessWidget {
               textAlign: TextAlign.center,
               style: AppTextStyles.medium.copyWith(
                 fontSize: 14.sp,
-                color: (Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor).withAlpha((0.5 * 255).round()),
+                color: (Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor).withAlpha(50),
               ),
             ),
           )

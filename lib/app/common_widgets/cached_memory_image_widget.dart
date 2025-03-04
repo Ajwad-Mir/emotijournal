@@ -43,8 +43,8 @@ class CachedBase64Image extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white.withOpacity(0.1)
-              : Colors.black.withOpacity(0.1),
+              ? Colors.white.withAlpha(10)
+              : Colors.black.withAlpha(10),
         ),
       ),
     );

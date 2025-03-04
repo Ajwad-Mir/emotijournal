@@ -1,7 +1,7 @@
 class JournalResponseModel {
   String title;
   List<Query> queries;
-  List<String> emotions;
+  List<Emotion> emotions;
   List<Quote> quotes;
 
   JournalResponseModel({
@@ -22,7 +22,7 @@ class JournalResponseModel {
   factory JournalResponseModel.fromJson(Map<String, dynamic> json) => JournalResponseModel(
     title: json['title'],
     queries: List<Query>.from(json["queries"].map((x) => Query.fromJson(x))),
-    emotions: List<String>.from(json["emotions"].map((x) => x)),
+    emotions: List<Emotion>.from(json["emotions"].map((x) => Emotion.fromJson(x))),
     quotes: List<Quote>.from(json["quotes"].map((x) => Quote.fromJson(x))),
   );
 
@@ -31,6 +31,26 @@ class JournalResponseModel {
     "queries": List<dynamic>.from(queries.map((x) => x.toJson())),
     "emotions": List<dynamic>.from(emotions.map((x) => x)),
     "quotes": List<dynamic>.from(quotes.map((x) => x.toJson())),
+  };
+}
+
+class Emotion {
+  final String emotion;
+  final int percentage;
+
+  Emotion({
+    required this.emotion,
+    required this.percentage,
+  });
+
+  factory Emotion.fromJson(Map<String, dynamic> json) => Emotion(
+    emotion: json["emotion"],
+    percentage: json["percentage"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "emotion": emotion,
+    "percentage": percentage,
   };
 }
 

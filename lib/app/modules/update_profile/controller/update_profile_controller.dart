@@ -55,7 +55,7 @@ class UpdateProfileController extends GetxController {
         ),
       ),
       barrierDismissible: false,
-      barrierColor: AppColors.black.withOpacity(0.75),
+      barrierColor: AppColors.black.withAlpha(75),
     );
 
   }

@@ -12,17 +12,21 @@ class JournalDatabase {
         .collection('users')
         .doc(Get.find<SessionService>().userToken.value)
         .collection('journal')
-        .where('createdAt',
-            isLessThanOrEqualTo: Timestamp.fromDate(DateTime(Get.find<HomeController>().selectedDate.value.year,
-                Get.find<HomeController>().selectedDate.value.month, Get.find<HomeController>().selectedDate.value.day + 1, 0, 0, 0, 0)))
-        .where('createdAt',
-            isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(Get.find<HomeController>().selectedDate.value.year,
-                Get.find<HomeController>().selectedDate.value.month, Get.find<HomeController>().selectedDate.value.day, 0, 0, 0, 0)))
-        .get();
-    if (journalRef.docs.isEmpty) {
+        .limit(1).get();
+    if (journalRef.size == 0) {
       return <JournalModel>[];
     }
-    return journalRef.docs.map((element) => JournalModel.fromMap(element.data())).toList();
+    final entriesRef = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(Get.find<SessionService>().userToken.value)
+        .collection('journal').where('createdAt',
+        isLessThanOrEqualTo: Timestamp.fromDate(DateTime(Get.find<HomeController>().selectedDate.value.year,
+            Get.find<HomeController>().selectedDate.value.month, Get.find<HomeController>().selectedDate.value.day + 1, 0, 0, 0, 0)))
+        .where('createdAt',
+        isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(Get.find<HomeController>().selectedDate.value.year,
+            Get.find<HomeController>().selectedDate.value.month, Get.find<HomeController>().selectedDate.value.day, 0, 0, 0, 0))).get();
+
+    return entriesRef.docs.map((element) => JournalModel.fromMap(element.data())).toList();
   }
 
   static Future<JournalModel> createNewJournalEntry(JournalModel response) async {

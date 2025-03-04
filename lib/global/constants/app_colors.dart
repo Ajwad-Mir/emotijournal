@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -27,4 +29,16 @@ class AppColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+
+  static Color getRandomColor() {
+    Color color;
+    do {
+      int red = Random().nextInt(200); // Avoid very high values
+      int green = Random().nextInt(200);
+      int blue = Random().nextInt(200);
+      color = Color.fromRGBO(red, green, blue, 1);
+    } while (color == Colors.white || color == Colors.grey[100]); // Avoid white and very light grey
+    return color;
+  }
 }

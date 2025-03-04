@@ -120,8 +120,8 @@ class LoginPage extends GetView<LoginController> {
               style: AppTextStyles.normal.copyWith(
                   fontSize: 16.sp,
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? AppColors.darkTextColor.withOpacity(0.5)
-                      : AppColors.lightTextColor.withOpacity(0.5)),
+                      ? AppColors.darkTextColor.withAlpha(50)
+                      : AppColors.lightTextColor.withAlpha(50)),
             ),
           ),
         ],

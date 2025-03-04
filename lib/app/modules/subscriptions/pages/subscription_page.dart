@@ -215,7 +215,7 @@ class SubscriptionPage extends GetView<SubscriptionsController> {
         radius: 8,
         spacing: 10,
         dotHeight: 12,
-        dotColor: AppColors.white.withOpacity(0.5),
+        dotColor: AppColors.white.withAlpha(50),
         dotWidth: 12,
       ),
     );
