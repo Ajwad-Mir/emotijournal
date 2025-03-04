@@ -7,6 +7,7 @@ import 'package:emotijournal/app/modules/home/widgets/custom_calendar_header_wid
 import 'package:emotijournal/app/modules/home/widgets/no_notes_widget.dart';
 import 'package:emotijournal/app/modules/journal_entry/page/create_new_entry_page.dart';
 import 'package:emotijournal/app/modules/journal_entry/page/view_existing_entry_page.dart';
+import 'package:emotijournal/app/services/session_service.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
@@ -26,6 +27,7 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       initState: (_) async {
+        log(Get.find<SessionService>().userToken.value);
         await controller.getAllJournalEntries();
       },
       builder: (_) => Scaffold(

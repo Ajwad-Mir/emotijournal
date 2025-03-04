@@ -8,14 +8,6 @@ class JournalDatabase {
   JournalDatabase._();
 
   static Future<List<JournalModel>> getAllJournalEntries() async {
-    final journalRef = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(Get.find<SessionService>().userToken.value)
-        .collection('journal')
-        .limit(1).get();
-    if (journalRef.size == 0) {
-      return <JournalModel>[];
-    }
     final entriesRef = await FirebaseFirestore.instance
         .collection('users')
         .doc(Get.find<SessionService>().userToken.value)

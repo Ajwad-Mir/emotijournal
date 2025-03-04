@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -203,6 +204,7 @@ class SettingsPage extends GetView<SettingsController> {
         CupertinoButton(
           onPressed: () async {
             await GoogleAuthProviderService().logout();
+            GetStorage().write('userToken', "");
             Get.offAll(
               () => LoginPage(),
               transition: Transition.fadeIn,
@@ -249,7 +251,9 @@ class SettingsPage extends GetView<SettingsController> {
         20.verticalSpace,
         CupertinoButton(
           onPressed: () async {
+            controller.isProcessing.value = true;
             await GoogleAuthProviderService().logout();
+            controller.isProcessing.value = false;
             Get.offAll(
               () => LoginPage(),
               transition: Transition.fade,

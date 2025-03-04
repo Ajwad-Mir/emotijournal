@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:emotijournal/firebase_options.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
@@ -16,7 +15,6 @@ class GoogleAuthProviderService {
   Future<UserCredential?> signInWithGoogle() async {
     try {
       googleUser = await _googleSignIn.signIn();
-
       if (googleUser == null) {
         Fluttertoast.showToast(
           msg: 'User cancelled the operation',
