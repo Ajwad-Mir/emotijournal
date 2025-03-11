@@ -31,14 +31,15 @@ class UserModel {
     );
   }
 
-  factory UserModel.createNewUser({
+  factory UserModel.fromUser({
+    required String userID,
     required String fullName,
     required String emailAddress,
     required String password,
     required String profileImageLink,
   }) {
     return UserModel(
-      userID: "",
+      userID: userID,
       fullName: fullName,
       emailAddress: emailAddress,
       password: password,

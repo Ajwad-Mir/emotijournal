@@ -23,7 +23,9 @@ class CustomAppBar extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Obx(
       () => SliverAppBar(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.darkBackgroundColor
+            : AppColors.lightBackgroundColor,
         surfaceTintColor: Colors.transparent,
         expandedHeight: 250.0.h,
         collapsedHeight: 100.0.h,
@@ -72,7 +74,9 @@ class CustomAppBar extends GetView<HomeController> {
                 firstChild: _buildExpandedSection(context),
                 secondChild: Container(),
                 // Empty container when collapsed
-                crossFadeState: controller.isCollapsed.value ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                crossFadeState: controller.isCollapsed.value
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
 
                 duration: const Duration(milliseconds: 750),
                 reverseDuration: const Duration(milliseconds: 750),
@@ -93,7 +97,8 @@ class CustomAppBar extends GetView<HomeController> {
       padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 40.0.h),
       decoration: BoxDecoration(
         color: Colors.transparent,
-        border: const GradientBoxBorder(gradient: AppColors.primaryGradient, width: 1.0),
+        border: const GradientBoxBorder(
+            gradient: AppColors.primaryGradient, width: 1.0),
         borderRadius: BorderRadius.circular(25.0),
       ),
       child: Row(
@@ -103,21 +108,28 @@ class CustomAppBar extends GetView<HomeController> {
               ? Container(
                   width: 70.w,
                   height: 70.h,
-                  padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
                   decoration: BoxDecoration(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.white.withAlpha((255 * 0.25).round())
+                        : AppColors.black.withAlpha((255 * 0.25).round()),
                     shape: BoxShape.circle,
                   ),
-                  child: SvgPicture.asset(
-                    Assets.svgUserProfile,
-                    colorFilter: ColorFilter.mode(
-                      Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
-                      BlendMode.srcIn,
-                    ),
-                    fit: BoxFit.contain,
+                  child: Text(
+                    "${Get.find<SessionService>().sessionUser.value.fullName.split(" ").first[0]}${Get.find<SessionService>().sessionUser.value.fullName.split(" ").last[0]}",
+                    style: AppTextStyles.medium.copyWith(
+                        fontSize: 24.0.sp,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppColors.darkTextColor
+                            : AppColors.lightTextColor),
                   ),
                 )
               : CachedBase64Image(
-                  base64String: Get.find<SessionService>().sessionUser.value.profileImageLink,
+                  base64String: Get.find<SessionService>()
+                      .sessionUser
+                      .value
+                      .profileImageLink,
                   width: 70.w,
                   height: 70.h,
                 ),
@@ -134,7 +146,9 @@ class CustomAppBar extends GetView<HomeController> {
                     Get.find<SessionService>().sessionUser.value.fullName,
                     style: AppTextStyles.medium.copyWith(
                         fontSize: 24.0.sp,
-                        color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppColors.darkTextColor
+                            : AppColors.lightTextColor),
                   ),
                   CupertinoButton(
                     onPressed: () {
@@ -152,7 +166,9 @@ class CustomAppBar extends GetView<HomeController> {
                         SvgPicture.asset(
                           Assets.svgEditUser,
                           colorFilter: ColorFilter.mode(
-                            Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                            Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.darkTextColor
+                                : AppColors.lightTextColor,
                             BlendMode.srcIn,
                           ),
                           width: 20.w,
@@ -165,7 +181,10 @@ class CustomAppBar extends GetView<HomeController> {
                           style: AppTextStyles.normal.copyWith(
                             fontSize: 18.sp,
                             decoration: TextDecoration.underline,
-                            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? AppColors.darkTextColor
+                                    : AppColors.lightTextColor,
                           ),
                         ),
                       ],
@@ -186,7 +205,8 @@ class CustomAppBar extends GetView<HomeController> {
       height: 65.h,
       decoration: BoxDecoration(
         color: Colors.transparent,
-        border: const GradientBoxBorder(gradient: AppColors.primaryGradient, width: 1.0),
+        border: const GradientBoxBorder(
+            gradient: AppColors.primaryGradient, width: 1.0),
         borderRadius: BorderRadius.circular(25.0),
       ),
       padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
@@ -199,31 +219,44 @@ class CustomAppBar extends GetView<HomeController> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Get.find<SessionService>().sessionUser.value.profileImageLink.isEmpty
+              Get.find<SessionService>()
+                      .sessionUser
+                      .value
+                      .profileImageLink
+                      .isEmpty
                   ? Container(
                       width: 40.w,
                       height: 40.h,
-                      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.w, vertical: 15.h),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                       ),
                       child: SvgPicture.asset(
                         Assets.svgUserProfile,
                         colorFilter: ColorFilter.mode(
-                          Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
+                          Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.white
+                              : AppColors.black,
                           BlendMode.srcIn,
                         ),
                         fit: BoxFit.contain,
                       ),
                     )
-                  : CachedBase64Image(base64String: Get.find<SessionService>().sessionUser.value.profileImageLink),
+                  : CachedBase64Image(
+                      base64String: Get.find<SessionService>()
+                          .sessionUser
+                          .value
+                          .profileImageLink),
               12.horizontalSpace,
               Text(
                 Get.find<SessionService>().sessionUser.value.fullName,
                 style: AppTextStyles.semiBold.copyWith(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w600,
-                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
               ),
             ],
@@ -242,7 +275,9 @@ class CustomAppBar extends GetView<HomeController> {
             child: SvgPicture.asset(
               Assets.svgEditUser,
               colorFilter: ColorFilter.mode(
-                Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
+                Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.white
+                    : AppColors.black,
                 BlendMode.srcIn,
               ),
               width: 20.w,

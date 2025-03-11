@@ -63,18 +63,18 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       Theme.of(context).brightness == Brightness.dark
           ? SystemUiOverlayStyle(
-              systemNavigationBarColor: Colors.black.withOpacity(0.005),
+              systemNavigationBarColor: Colors.black.withAlpha((255 * 0.005).round()),
               systemNavigationBarIconBrightness: Brightness.light,
               statusBarIconBrightness: Brightness.light, //Android Icons
               statusBarBrightness: Brightness.dark, //iOS Icons
-              statusBarColor: Colors.black.withOpacity(0.005),
+              statusBarColor: Colors.black.withAlpha((255 * 0.005).round()),
             )
           : SystemUiOverlayStyle(
-              systemNavigationBarColor: Colors.white.withOpacity(0.005),
+              systemNavigationBarColor: Colors.white.withAlpha((255 * 0.005).round()),
               systemNavigationBarIconBrightness: Brightness.dark,
               statusBarIconBrightness: Brightness.dark, //Android Icons
               statusBarBrightness: Brightness.light, //iOS Icons
-              statusBarColor: Colors.black.withOpacity(0.005),
+              statusBarColor: Colors.black.withAlpha((255 * 0.005).round()),
             ),
     );
   }

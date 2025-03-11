@@ -47,9 +47,11 @@ class SessionService extends GetxService {
 
   Future<void> loginExistingSimple() async {
     final user = await AuthDatabase.loginExistingAccountSimple(
-        email: Get.find<LoginController>().emailController.text, password: Get.find<LoginController>().passwordController.text);
+        email: Get.find<LoginController>().emailController.text,
+        password: Get.find<LoginController>().passwordController.text);
     if (user != null) {
       Get.find<SessionService>().userToken.value = user.user!.uid;
+      await GetStorage().write('userToken', user.user!.uid);
       Get.find<SessionService>().sessionUser.value = UserModel(
         userID: user.user!.uid,
         fullName: user.user!.displayName.toString(),
@@ -68,25 +70,28 @@ class SessionService extends GetxService {
   }
 
   Future<void> loginExistingProvider({required String providerName}) async {
-    final user = await AuthDatabase.loginExistingAccountProvider(providerName: "Google");
+    final user =
+        await AuthDatabase.loginExistingAccountProvider(providerName: "Google");
+
     if (user != null) {
       final userExists = await UsersDatabase.checkIfUserExists(user.user!.uid);
       if (userExists == false) {
         final image = await fetchAndConvertImageToDataUrl(user.user!.photoURL!);
         Get.find<SessionService>().userToken.value = user.user!.uid;
+        await GetStorage().write('userToken', user.user!.uid);
         await UsersDatabase.createUser(
-          newUserData: UserModel(
+          newUserData: UserModel.fromUser(
             userID: user.user!.uid,
             fullName: user.user!.displayName.toString(),
             emailAddress: user.user!.email.toString(),
             password: "",
             profileImageLink: image,
-            createdAt: Timestamp.now(),
-            updatedAt: Timestamp.now(),
           ),
         );
       } else {
-        Get.find<SessionService>().sessionUser.value = await UsersDatabase.getUserFromID(user.user!.uid);
+        await GetStorage().write('userToken', user.user!.uid);
+        Get.find<SessionService>().sessionUser.value =
+            await UsersDatabase.getUserFromID(user.user!.uid);
       }
       Get.offAll(
         () => const HomePage(),
@@ -98,11 +103,16 @@ class SessionService extends GetxService {
 
   Future<void> createNewUserSimple() async {
     final user = await AuthDatabase.createNewAccountSimple(
-        email: Get.find<RegisterController>().emailController.text, password: Get.find<RegisterController>().passwordController.text);
+        email: Get.find<RegisterController>().emailController.text,
+        password: Get.find<RegisterController>().passwordController.text);
+    GetStorage().write('userToken', user?.user!.uid);
+
     if (user != null) {
       Get.find<SessionService>().userToken.value = user.user!.uid;
+      await GetStorage().write('userToken', user.user!.uid);
       await UsersDatabase.createUser(
-          newUserData: UserModel.createNewUser(
+          newUserData: UserModel.fromUser(
+        userID: user.user!.uid,
         fullName: Get.find<RegisterController>().fullNameController.text,
         emailAddress: Get.find<RegisterController>().emailController.text,
         password: Get.find<RegisterController>().passwordController.text,
@@ -117,10 +127,13 @@ class SessionService extends GetxService {
   }
 
   Future<void> createNewUserProvider({required String providerName}) async {
-    final user = await AuthDatabase.createNewAccountProvider(providerName: providerName);
+    final user =
+        await AuthDatabase.createNewAccountProvider(providerName: providerName);
+
     if (user != null) {
       final image = await fetchAndConvertImageToDataUrl(user.user!.photoURL!);
       Get.find<SessionService>().userToken.value = user.user!.uid;
+      await GetStorage().write('userToken', user.user!.uid);
       await UsersDatabase.createUser(
         newUserData: UserModel(
           userID: user.user!.uid,
@@ -158,7 +171,7 @@ class SessionService extends GetxService {
         throw Exception('Failed to load image');
       }
     } catch (e) {
-      return '';  // Return empty string in case of error
+      return ''; // Return empty string in case of error
     }
   }
 }
