@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:emotijournal/app/configs/api_configs.dart';
 import 'package:emotijournal/app/models/journal_response_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -6,27 +7,15 @@ import 'package:http/http.dart' as http;
 class JournalAI {
   JournalAI._();
 
-  static String apiKey = "";
-  static String initialQuery = "";
-  static String improvementQuery = "";
-
-  static Future<void> initialize() async {
-    await dotenv.load(fileName: 'keys.env');
-    apiKey = dotenv.get("GOOGLE_AI_API_KEY", fallback: "");
-    initialQuery = dotenv.get("API_QUERY", fallback: "");
-    improvementQuery = dotenv.get("IMPROVEMENT_API_QUERY", fallback: "");
-
-  }
-
   static Future<JournalResponseModel> getFirstResponse(String query) async {
     final response = await http.post(
-      Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$apiKey"),
+      Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${ApiConfigs.googleAiApiKey}"),
       body: jsonEncode({
         "contents": [
           {
             "parts": [
               {
-                "text": initialQuery,
+                "text": ApiConfigs.apiQuery,
               },
               {
                 "text": query,
@@ -50,13 +39,13 @@ class JournalAI {
 
   static Future<JournalResponseModel> getImprovedResponse(String query) async {
     final response = await http.post(
-        Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$apiKey"),
+        Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${ApiConfigs.apiQuery}"),
         body: jsonEncode({
           "contents": [
             {
               "parts": [
                 {
-                  "text": improvementQuery,
+                  "text": ApiConfigs.improvementApiQuery,
                 },
                 {
                   "text": query,

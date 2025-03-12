@@ -119,5 +119,3 @@ flutter:
     - assets/fonts/
     - assets/png/
     - assets/lottie_json/
-    - keys.env
-

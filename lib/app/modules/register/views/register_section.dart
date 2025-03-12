@@ -24,7 +24,10 @@ class RegisterSection extends GetView<RegisterController> {
             'Register',
             textScaler: const TextScaler.linear(1),
             style: AppTextStyles.semiBold.copyWith(
-                fontSize: 24.sp, color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor),
+                fontSize: 24.sp,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.darkTextColor
+                    : AppColors.lightTextColor),
           ),
         ),
         10.verticalSpace,
@@ -34,7 +37,8 @@ class RegisterSection extends GetView<RegisterController> {
             width: Get.width,
             padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.w),
             decoration: BoxDecoration(
-              border: GradientBoxBorder(gradient: AppColors.primaryGradient, width: 1.w),
+              border: GradientBoxBorder(
+                  gradient: AppColors.primaryGradient, width: 1.w),
               borderRadius: BorderRadius.circular(15.r),
             ),
             child: Form(
@@ -45,7 +49,9 @@ class RegisterSection extends GetView<RegisterController> {
                     controller: controller.fullNameController,
                     style: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
-                      color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.darkTextColor
+                          : AppColors.lightTextColor,
                     ),
                     hintText: 'Full Name',
                     hintStyle: AppTextStyles.normal.copyWith(
@@ -57,19 +63,30 @@ class RegisterSection extends GetView<RegisterController> {
                     validator: (val) {
                       if (val.toString().isEmpty) {
                         return 'Full name is required';
-                      } else if (!RegExp(r'^[a-zA-Z]+(\s[a-zA-Z]+){1,2}$').hasMatch(val.toString())) {
+                      } else if (!RegExp(r'^[a-zA-Z]+(\s[a-zA-Z]+){1,2}$')
+                          .hasMatch(val.toString())) {
                         return 'Please enter a valid full name (First, Middle, and Last name are allowed)';
                       }
                       return null;
                     },
-                    fillColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+                    fillColor: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.darkBackgroundColor
+                        : AppColors.lightBackgroundColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.0),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.white
+                              : AppColors.black,
+                          width: 1.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.5),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.white
+                              : AppColors.black,
+                          width: 1.5),
                     ),
                   ),
                   21.verticalSpace,
@@ -77,7 +94,9 @@ class RegisterSection extends GetView<RegisterController> {
                     controller: controller.emailController,
                     style: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
-                      color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.darkTextColor
+                          : AppColors.lightTextColor,
                     ),
                     hintText: 'Email Address',
                     hintStyle: AppTextStyles.normal.copyWith(
@@ -89,19 +108,30 @@ class RegisterSection extends GetView<RegisterController> {
                     validator: (val) {
                       if (val.toString().isEmpty) {
                         return "Email cannot be empty";
-                      } else if (val.toString().isNotEmpty && !val.toString().isEmail) {
+                      } else if (val.toString().isNotEmpty &&
+                          !val.toString().isEmail) {
                         return "This is a invalid email address";
                       }
                       return null;
                     },
-                    fillColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+                    fillColor: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.darkBackgroundColor
+                        : AppColors.lightBackgroundColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.0),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.white
+                              : AppColors.black,
+                          width: 1.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.5),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.white
+                              : AppColors.black,
+                          width: 1.5),
                     ),
                   ),
                   21.verticalSpace,
@@ -109,7 +139,9 @@ class RegisterSection extends GetView<RegisterController> {
                     controller: controller.passwordController,
                     style: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
-                      color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.darkTextColor
+                          : AppColors.lightTextColor,
                     ),
                     hintText: 'Password',
                     hintStyle: AppTextStyles.normal.copyWith(
@@ -121,19 +153,30 @@ class RegisterSection extends GetView<RegisterController> {
                     validator: (val) {
                       if (val.toString().isEmpty) {
                         return "Password cannot be empty";
-                      } else if (val.toString() != controller.confirmPasswordController.text) {
+                      } else if (val.toString() !=
+                          controller.confirmPasswordController.text) {
                         return "Passwords do not match";
                       }
                       return null;
                     },
-                    fillColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+                    fillColor: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.darkBackgroundColor
+                        : AppColors.lightBackgroundColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.0),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.white
+                              : AppColors.black,
+                          width: 1.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.5),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.white
+                              : AppColors.black,
+                          width: 1.5),
                     ),
                   ),
                   21.verticalSpace,
@@ -141,13 +184,16 @@ class RegisterSection extends GetView<RegisterController> {
                     controller: controller.confirmPasswordController,
                     style: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
-                      color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.darkTextColor
+                          : AppColors.lightTextColor,
                     ),
                     hintText: 'Confirm Password',
                     validator: (val) {
                       if (val.toString().isEmpty) {
                         return "Password cannot be empty";
-                      } else if (val.toString() != controller.passwordController.text) {
+                      } else if (val.toString() !=
+                          controller.passwordController.text) {
                         return "Passwords do not match";
                       }
                       return null;
@@ -158,14 +204,24 @@ class RegisterSection extends GetView<RegisterController> {
                           ? AppColors.darkTextColor.withAlpha(50)
                           : AppColors.lightTextColor.withAlpha(50),
                     ),
-                    fillColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+                    fillColor: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.darkBackgroundColor
+                        : AppColors.lightBackgroundColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.0),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.white
+                              : AppColors.black,
+                          width: 1.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide(color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black, width: 1.5),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.white
+                              : AppColors.black,
+                          width: 1.5),
                     ),
                   ),
                   37.verticalSpace,
@@ -194,20 +250,37 @@ class RegisterSection extends GetView<RegisterController> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100.r),
           border: Border.all(
-            color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.white
+                : AppColors.black,
             width: 1.0.w,
           ),
         ),
         padding: EdgeInsets.symmetric(vertical: 15.h),
-        child: Center(
-          child: Text(
-            'Register',
-            textScaler: const TextScaler.linear(1),
-            style: AppTextStyles.medium.copyWith(
-              fontSize: 16.sp,
-              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
-            ),
-          ),
+        child: Obx(
+          () => Get.find<SessionService>().isProcessing.isTrue
+              ? Center(
+                child: SizedBox(
+                    width: 16.sp, // Same as text size
+                    height: 16.sp,
+                    child: CircularProgressIndicator(
+                      color: AppColors.white,
+                      strokeWidth: 2,
+                    ),
+                  ),
+              )
+              : Center(
+                  child: Text(
+                    'Register',
+                    textScaler: const TextScaler.linear(1),
+                    style: AppTextStyles.medium.copyWith(
+                      fontSize: 16.sp,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.darkTextColor
+                          : AppColors.lightTextColor,
+                    ),
+                  ),
+                ),
         ),
       ),
     );

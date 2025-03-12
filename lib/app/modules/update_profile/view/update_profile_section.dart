@@ -32,7 +32,7 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
               ),
               hintStyle: AppTextStyles.normal.copyWith(
                 fontSize: 14.sp,
-                color: AppColors.white.withAlpha(75),
+                color: AppColors.white.withAlpha((255 * .75).round()),
               ),
               hintText: 'Full Name',
               fillColor: Colors.transparent,
@@ -54,7 +54,7 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
               ),
               hintStyle: AppTextStyles.normal.copyWith(
                 fontSize: 14.sp,
-                color: AppColors.white.withAlpha(75),
+                color: AppColors.white.withAlpha((255 * .75).round()),
               ),
               hintText: 'Email Address',
               fillColor: Colors.transparent,
@@ -76,7 +76,7 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
               ),
               hintStyle: AppTextStyles.normal.copyWith(
                 fontSize: 14.sp,
-                color: AppColors.white.withAlpha(75),
+                color: AppColors.white.withAlpha((255 * .75).round()),
               ),
               hintText: 'Password',
               fillColor: Colors.transparent,
@@ -98,7 +98,7 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
               ),
               hintStyle: AppTextStyles.normal.copyWith(
                 fontSize: 14.sp,
-                color: AppColors.white.withAlpha(75),
+                color: AppColors.white.withAlpha((255 * .75).round()),
               ),
               hintText: 'Confirm Password',
               fillColor: Colors.transparent,
@@ -122,7 +122,9 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
   Widget _buildUpdateButton(BuildContext context) {
     return CupertinoButton(
       onPressed: () async {
+        controller.isProcessing.value = true;
         await Get.find<UpdateProfileController>().updateExistingUser();
+        controller.isProcessing.value = false;
       },
       minSize: 0,
       pressedOpacity: 0.5,
@@ -138,12 +140,21 @@ class UpdateProfileSection extends GetView<UpdateProfileController> {
         ),
         padding: EdgeInsets.symmetric(vertical: 15.h),
         child: Center(
-          child: Text(
-            'Update',
-            textScaler: const TextScaler.linear(1),
-            style: AppTextStyles.normal.copyWith(
-              fontSize: 16.sp,
-              color: AppColors.white,
+          child: Obx(
+            () => controller.isProcessing.isTrue ? SizedBox(
+              width: 16.sp, // Same as text size
+              height: 16.sp,
+              child: CircularProgressIndicator(
+                color: AppColors.white,
+                strokeWidth: 2,
+              ),
+            ) : Text(
+              'Update',
+              textScaler: const TextScaler.linear(1),
+              style: AppTextStyles.normal.copyWith(
+                fontSize: 16.sp,
+                color: AppColors.white,
+              ),
             ),
           ),
         ),

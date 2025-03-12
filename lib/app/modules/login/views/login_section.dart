@@ -62,10 +62,9 @@ class LoginSection extends GetView<LoginController> {
                           : AppColors.lightTextColor.withAlpha(50),
                     ),
                     validator: (value) {
-                      if(value.toString().isEmpty) {
+                      if (value.toString().isEmpty) {
                         return "Email address should not be empty";
-                      }
-                      else if(value.toString().isEmail == false) {
+                      } else if (value.toString().isEmail == false) {
                         return "This is not a email address";
                       }
                       return null;
@@ -107,7 +106,7 @@ class LoginSection extends GetView<LoginController> {
                           : AppColors.lightTextColor.withAlpha(50),
                     ),
                     validator: (value) {
-                      if(value.toString().isEmpty) {
+                      if (value.toString().isEmpty) {
                         return "Password should not be empty";
                       }
                       return null;
@@ -144,7 +143,6 @@ class LoginSection extends GetView<LoginController> {
       ],
     );
   }
-
 
   Widget _buildLoginOptions(BuildContext context) {
     return SizedBox(
@@ -193,8 +191,8 @@ class LoginSection extends GetView<LoginController> {
 
   Widget _buildLoginButton(BuildContext context) {
     return CupertinoButton(
-      onPressed: () async{
-        if(controller.loginFormKey.currentState!.validate()) {
+      onPressed: () async {
+        if (controller.loginFormKey.currentState!.validate()) {
           await Get.find<SessionService>().loginExistingSimple();
         }
       },
@@ -213,17 +211,30 @@ class LoginSection extends GetView<LoginController> {
           ),
         ),
         padding: EdgeInsets.symmetric(vertical: 15.h),
-        child: Center(
-          child: Text(
-            'Login',
-            textScaler: const TextScaler.linear(1),
-            style: AppTextStyles.medium.copyWith(
-              fontSize: 16.sp,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? AppColors.darkTextColor
-                  : AppColors.lightTextColor,
-            ),
-          ),
+        child: Obx(
+          () => Get.find<SessionService>().isProcessing.isTrue
+              ? Center(
+                  child: SizedBox(
+                    width: 16.sp, // Same as text size
+                    height: 16.sp,
+                    child: CircularProgressIndicator(
+                      color: AppColors.white,
+                      strokeWidth: 2,
+                    ),
+                  ),
+                )
+              : Center(
+                  child: Text(
+                    'Login',
+                    textScaler: const TextScaler.linear(1),
+                    style: AppTextStyles.medium.copyWith(
+                      fontSize: 16.sp,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.darkTextColor
+                          : AppColors.lightTextColor,
+                    ),
+                  ),
+                ),
         ),
       ),
     );

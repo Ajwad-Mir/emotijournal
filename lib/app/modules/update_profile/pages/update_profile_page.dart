@@ -75,150 +75,69 @@ class UpdateProfilePage extends GetView<UpdateProfileController> {
       ),
     );
   }
-
   Widget _buildProfileImageSection(BuildContext context) {
     return Obx(() {
-      if (Get.find<SessionService>().sessionUser.value.profileImageLink.isEmpty) {
-        return Container(
-          width: 160.w,
-          height: 160.w,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              width: 1.0.w,
-              color: AppColors.white,
-            ),
-            color: AppColors.black.withAlpha(76),
-          ),
-          clipBehavior: Clip.none,
-          child: Center(
-            child: SvgPicture.asset(
-              Assets.svgUserProfile,
-              width: 65.w,
-            ),
-          ),
-        );
-      } else {
-        if (controller.imageFile.value == null) {
-          return Container(
-            width: 160.w,
-            height: 160.w,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                width: 1.0.w,
-                color: AppColors.white,
-              ),
-              color: AppColors.black.withAlpha(76),
-              image: DecorationImage(
-                image: MemoryImage(base64Decode(Get.find<SessionService>().sessionUser.value.profileImageLink.split(",").last)),
-                fit: BoxFit.cover,
-              ),
-            ),
-            clipBehavior: Clip.none,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                  bottom: -10.h,
-                  right: 0,
-                  child: CupertinoButton(
-                    onPressed: () async {
-                      await Get.dialog(
-                        Dialog(
-                          child: ImageSelectionWidget(),
-                        ),
-                        barrierDismissible: false,
-                        barrierColor: AppColors.black.withAlpha(75),
-                      );
-                    },
-                    minSize: 0,
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      width: 60.w,
-                      height: 60.h,
-                      decoration: BoxDecoration(
-                        color: AppColors.black.withAlpha(76),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          width: 1.0.w,
-                          color: AppColors.white,
-                        ),
-                      ),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          Assets.svgAddImage,
-                          width: 20.w,
-                          height: 20.h,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        } else {
-          return Container(
-            width: 160.w,
-            height: 160.w,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                width: 1.0.w,
-                color: AppColors.white,
-              ),
-              color: AppColors.black.withAlpha(76),
-              image: DecorationImage(
-                image: FileImage(File(controller.imageFile.value!.path)),
-                fit: BoxFit.cover,
-              ),
-            ),
-            clipBehavior: Clip.none,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                  bottom: -10.h,
-                  right: 0,
-                  child: CupertinoButton(
-                    onPressed: () async {
-                      await Get.dialog(
-                        Dialog(
-                          child: ImageSelectionWidget(),
-                        ),
-                        barrierDismissible: false,
-                        barrierColor: AppColors.black.withAlpha(75),
-                      );
-                    },
-                    minSize: 0,
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      width: 60.w,
-                      height: 60.h,
-                      decoration: BoxDecoration(
-                        color: AppColors.black.withAlpha(76),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          width: 1.0.w,
-                          color: AppColors.white,
-                        ),
-                      ),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          Assets.svgAddImage,
-                          width: 20.w,
-                          height: 20.h,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        }
+      ImageProvider? imageProvider;
+      if (controller.imageFile.value != null) {
+        imageProvider = FileImage(File(controller.imageFile.value!.path));
+      } else if (Get.find<SessionService>().sessionUser.value.profileImageLink.isNotEmpty) {
+        imageProvider = MemoryImage(base64Decode(Get.find<SessionService>().sessionUser.value.profileImageLink.split(",").last));
       }
+
+      return Container(
+        width: 160.w,
+        height: 160.w,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(width: 1.0.w, color: AppColors.white),
+          color: AppColors.black.withAlpha((255 * .76).round()),
+          image: imageProvider != null ? DecorationImage(image: imageProvider, fit: BoxFit.cover) : null,
+        ),
+        clipBehavior: Clip.none,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            if (imageProvider == null)
+              Center(
+                child: SvgPicture.asset(
+                  Assets.svgUserProfile,
+                  width: 65.w,
+                ),
+              ),
+            Positioned(
+              bottom: -10.h,
+              right: 0,
+              child: CupertinoButton(
+                onPressed: () async {
+                  await Get.dialog(
+                    Dialog(child: ImageSelectionWidget()),
+                    barrierDismissible: false,
+                    barrierColor: AppColors.black.withAlpha((255 * .76).round()),
+                  );
+                },
+                minSize: 0,
+                padding: EdgeInsets.zero,
+                child: Container(
+                  width: 60.w,
+                  height: 60.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.black.withAlpha((255 * .76).round()),
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 1.0.w, color: AppColors.white),
+                  ),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      Assets.svgAddImage,
+                      width: 20.w,
+                      height: 20.h,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
     });
   }
 

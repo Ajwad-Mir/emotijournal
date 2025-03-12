@@ -11,16 +11,19 @@ import 'package:get_storage/get_storage.dart';
 class AuthDatabase {
   AuthDatabase._();
 
-  static Future<UserCredential?> loginExistingAccountSimple({required String email, required String password}) async {
+  static Future<UserCredential?> loginExistingAccountSimple(
+      {required String email, required String password}) async {
     try {
-      final data = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      final data = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
       if (kDebugMode) {
         print(data.user.toString());
       }
       GetStorage().write('userToken', data.user!.uid);
       return data;
     } on FirebaseException catch (e) {
-      if (e.code.toLowerCase() == 'user-not-found' || e.code.toLowerCase() == 'invalid-credential') {
+      if (e.code.toLowerCase() == 'user-not-found' ||
+          e.code.toLowerCase() == 'invalid-credential') {
         Fluttertoast.showToast(
           msg: "User not found. Please register this account.",
           toastLength: Toast.LENGTH_LONG,
@@ -51,19 +54,19 @@ class AuthDatabase {
     }
   }
 
-  static FutureOr<UserCredential?> loginExistingAccountProvider({required String providerName}) async {
+  static FutureOr<UserCredential?> loginExistingAccountProvider(
+      {required String providerName}) async {
     try {
       final UserCredential? data;
-      if(providerName.toLowerCase() == "google") {
+      if (providerName.toLowerCase() == "google") {
         data = await GoogleAuthProviderService().signInWithGoogle();
-        if(data != null) {
+        if (data != null) {
           if (kDebugMode) {
             print(data.user.toString());
           }
           GetStorage().write('userToken', data.user!.uid);
           return data;
-        }
-        else {
+        } else {
           return null;
         }
       }
@@ -75,9 +78,15 @@ class AuthDatabase {
     return null;
   }
 
-  static Future<UserCredential?> createNewAccountSimple({required String email, required String password}) async {
+  static Future<UserCredential?> createNewAccountSimple(
+      {required String email,
+      required String password,
+      required String userName}) async {
     try {
-      final data = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      final data = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      await data.user?.updateProfile(displayName: userName, photoURL: "");
       if (kDebugMode) {
         print(data.user.toString());
       }
@@ -114,19 +123,19 @@ class AuthDatabase {
     }
   }
 
-  static FutureOr<UserCredential?> createNewAccountProvider({required String providerName}) async {
+  static FutureOr<UserCredential?> createNewAccountProvider(
+      {required String providerName}) async {
     try {
       final UserCredential? data;
-      if(providerName.toLowerCase() == "google") {
+      if (providerName.toLowerCase() == "google") {
         data = await GoogleAuthProviderService().signInWithGoogle();
-        if(data != null) {
+        if (data != null) {
           if (kDebugMode) {
             print(data.user.toString());
           }
           GetStorage().write('userToken', data.user!.uid);
           return data;
-        }
-        else {
+        } else {
           return null;
         }
       }

@@ -22,7 +22,9 @@ class SettingsPage extends GetView<SettingsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? AppColors.darkBackgroundColor
+          : AppColors.lightBackgroundColor,
       appBar: AppBar(
         systemOverlayStyle: Theme.of(context).brightness == Brightness.dark
             ? SystemUiOverlayStyle(
@@ -64,7 +66,9 @@ class SettingsPage extends GetView<SettingsController> {
           padding: EdgeInsets.zero,
           child: Icon(
             Icons.arrow_back_ios_new,
-            color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.white
+                : AppColors.black,
           ),
         ),
       ),
@@ -100,7 +104,9 @@ class SettingsPage extends GetView<SettingsController> {
           textScaler: TextScaler.linear(1),
           style: AppTextStyles.normal.copyWith(
             fontSize: 28.sp,
-            color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.darkTextColor
+                : AppColors.lightTextColor,
           ),
         ),
         35.verticalSpace,
@@ -118,7 +124,9 @@ class SettingsPage extends GetView<SettingsController> {
               _buildCustomListTile(
                 context: context,
                 onPressed: () {
-                  showDialog(context: context, builder: (context) => ThemeSelectionDialog());
+                  showDialog(
+                      context: context,
+                      builder: (context) => ThemeSelectionDialog());
                 },
                 title: "Theme Mode",
                 leadingSvgIcon: SvgPicture.asset(
@@ -126,7 +134,9 @@ class SettingsPage extends GetView<SettingsController> {
                   width: 24.w,
                   height: 24.h,
                   colorFilter: ColorFilter.mode(
-                    Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
+                    Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.white
+                        : AppColors.black,
                     BlendMode.srcIn,
                   ),
                 ),
@@ -147,7 +157,9 @@ class SettingsPage extends GetView<SettingsController> {
                   width: 24.w,
                   height: 24.h,
                   colorFilter: ColorFilter.mode(
-                    Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
+                    Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.white
+                        : AppColors.black,
                     BlendMode.srcIn,
                   ),
                 ),
@@ -159,7 +171,11 @@ class SettingsPage extends GetView<SettingsController> {
     );
   }
 
-  Widget _buildCustomListTile({required BuildContext context, required String title, required SvgPicture leadingSvgIcon, required VoidCallback onPressed}) {
+  Widget _buildCustomListTile(
+      {required BuildContext context,
+      required String title,
+      required SvgPicture leadingSvgIcon,
+      required VoidCallback onPressed}) {
     return CupertinoButton(
       onPressed: onPressed,
       minSize: 0,
@@ -181,14 +197,18 @@ class SettingsPage extends GetView<SettingsController> {
                   textScaler: TextScaler.linear(1),
                   style: AppTextStyles.medium.copyWith(
                     fontSize: 18.sp,
-                    color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.darkTextColor
+                        : AppColors.lightTextColor,
                   ),
                 )
               ],
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.darkTextColor
+                  : AppColors.lightTextColor,
             )
           ],
         ),
@@ -203,8 +223,10 @@ class SettingsPage extends GetView<SettingsController> {
       children: [
         CupertinoButton(
           onPressed: () async {
+            controller.isProcessing.value = true;
             await GoogleAuthProviderService().logout();
             GetStorage().write('userToken', "");
+            controller.isProcessing.value = false;
             Get.offAll(
               () => LoginPage(),
               transition: Transition.fadeIn,
@@ -219,32 +241,52 @@ class SettingsPage extends GetView<SettingsController> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               border: Border.all(
-                color: Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.white
+                    : AppColors.black,
               ),
             ),
             padding: EdgeInsets.symmetric(
               vertical: 15.h,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  Assets.svgLogout,
-                  colorFilter: ColorFilter.mode(
-                    Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black,
-                    BlendMode.srcIn,
-                  ),
-                ),
-                17.horizontalSpace,
-                Text(
-                  "Logout",
-                  textScaler: TextScaler.linear(1),
-                  style: AppTextStyles.medium.copyWith(
-                    fontSize: 18.sp,
-                    color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
-                  ),
-                )
-              ],
+            child: Obx(
+              () => controller.isProcessing.isTrue
+                  ? Center(
+                      child: SizedBox(
+                        width: 18.sp, // Same as text size
+                        height: 18.sp,
+                        child: CircularProgressIndicator(
+                          color: AppColors.white,
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.svgLogout,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.white
+                                : AppColors.black,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        17.horizontalSpace,
+                        Text(
+                          "Logout",
+                          textScaler: TextScaler.linear(1),
+                          style: AppTextStyles.medium.copyWith(
+                            fontSize: 18.sp,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? AppColors.darkTextColor
+                                    : AppColors.lightTextColor,
+                          ),
+                        )
+                      ],
+                    ),
             ),
           ),
         ),

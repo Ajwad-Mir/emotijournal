@@ -13,6 +13,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 class SessionService extends GetxService {
+  final isProcessing = false.obs;
   final sessionUser = UserModel.empty().obs;
   final userToken = ''.obs;
 
@@ -46,6 +47,7 @@ class SessionService extends GetxService {
   }
 
   Future<void> loginExistingSimple() async {
+    isProcessing.value = true;
     final user = await AuthDatabase.loginExistingAccountSimple(
         email: Get.find<LoginController>().emailController.text,
         password: Get.find<LoginController>().passwordController.text);
@@ -61,12 +63,15 @@ class SessionService extends GetxService {
         createdAt: Timestamp.fromDate(user.user!.metadata.creationTime!),
         updatedAt: Timestamp.now(),
       );
+      print(Get.find<SessionService>().sessionUser.value.toMap().toString());
+      isProcessing.value = false;
       Get.offAll(
         () => HomePage(),
         transition: Transition.cupertino,
         duration: 850.milliseconds,
       );
     }
+    isProcessing.value = false;
   }
 
   Future<void> loginExistingProvider({required String providerName}) async {
@@ -74,11 +79,13 @@ class SessionService extends GetxService {
         await AuthDatabase.loginExistingAccountProvider(providerName: "Google");
 
     if (user != null) {
+      isProcessing.value = true;
       final userExists = await UsersDatabase.checkIfUserExists(user.user!.uid);
       if (userExists == false) {
         final image = await fetchAndConvertImageToDataUrl(user.user!.photoURL!);
         Get.find<SessionService>().userToken.value = user.user!.uid;
         await GetStorage().write('userToken', user.user!.uid);
+        isProcessing.value = false;
         await UsersDatabase.createUser(
           newUserData: UserModel.fromUser(
             userID: user.user!.uid,
@@ -93,18 +100,23 @@ class SessionService extends GetxService {
         Get.find<SessionService>().sessionUser.value =
             await UsersDatabase.getUserFromID(user.user!.uid);
       }
+      isProcessing.value = false;
       Get.offAll(
         () => const HomePage(),
         transition: Transition.cupertino,
         duration: 850.milliseconds,
       );
     }
+    isProcessing.value = false;
   }
 
   Future<void> createNewUserSimple() async {
+    isProcessing.value = true;
     final user = await AuthDatabase.createNewAccountSimple(
-        email: Get.find<RegisterController>().emailController.text,
-        password: Get.find<RegisterController>().passwordController.text);
+      email: Get.find<RegisterController>().emailController.text,
+      password: Get.find<RegisterController>().passwordController.text,
+      userName: Get.find<RegisterController>().fullNameController.text,
+    );
     GetStorage().write('userToken', user?.user!.uid);
 
     if (user != null) {
@@ -118,15 +130,18 @@ class SessionService extends GetxService {
         password: Get.find<RegisterController>().passwordController.text,
         profileImageLink: "",
       ));
+      isProcessing.value = false;
       Get.offAll(
         () => HomePage(),
         transition: Transition.cupertino,
         duration: 850.milliseconds,
       );
     }
+    isProcessing.value = false;
   }
 
   Future<void> createNewUserProvider({required String providerName}) async {
+    isProcessing.value = true;
     final user =
         await AuthDatabase.createNewAccountProvider(providerName: providerName);
 
@@ -151,6 +166,7 @@ class SessionService extends GetxService {
         duration: 850.milliseconds,
       );
     }
+    isProcessing.value = false;
   }
 
   Future<String> fetchAndConvertImageToDataUrl(String imageUrl) async {

@@ -116,13 +116,15 @@ class CustomAppBar extends GetView<HomeController> {
                         : AppColors.black.withAlpha((255 * 0.25).round()),
                     shape: BoxShape.circle,
                   ),
-                  child: Text(
-                    "${Get.find<SessionService>().sessionUser.value.fullName.split(" ").first[0]}${Get.find<SessionService>().sessionUser.value.fullName.split(" ").last[0]}",
-                    style: AppTextStyles.medium.copyWith(
-                        fontSize: 24.0.sp,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppColors.darkTextColor
-                            : AppColors.lightTextColor),
+                  child: Center(
+                    child: Text(
+                      "${Get.find<SessionService>().sessionUser.value.fullName.split(" ").first[0]}${Get.find<SessionService>().sessionUser.value.fullName.split(" ").last[0]}",
+                      style: AppTextStyles.bold.copyWith(
+                          fontSize: 28.0.sp,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.darkTextColor
+                              : AppColors.lightTextColor),
+                    ),
                   ),
                 )
               : CachedBase64Image(
