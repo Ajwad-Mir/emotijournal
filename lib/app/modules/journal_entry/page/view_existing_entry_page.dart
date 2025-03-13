@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:emotijournal/app/models/journal_model.dart';
 import 'package:emotijournal/app/modules/journal_entry/controller/journal_entry_controller.dart';
@@ -7,9 +5,7 @@ import 'package:emotijournal/app/modules/journal_entry/views/query_history_secti
 import 'package:emotijournal/app/modules/journal_entry/widget/animated_segmented_control.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
-import 'package:emotijournal/global/constants/emotion_colors.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:float_column/float_column.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -173,7 +169,7 @@ class ViewExistingEntryPage extends GetView<JournalManagementController> {
         radius: 8,
         spacing: 10,
         dotHeight: 12,
-        dotColor: AppColors.white.withAlpha(50),
+        dotColor: AppColors.white.withAlpha((255 * 0.5).round()),
         dotWidth: 12,
       ),
     );
@@ -204,55 +200,86 @@ class ViewExistingEntryPage extends GetView<JournalManagementController> {
             ),
           ),
           12.verticalSpace,
-          FloatColumn(
-            children: [
-              Floatable(
-                float: FCFloat.end,
-                clear: FCClear.both,
-                clearMinSpacing: 20,
-                padding: EdgeInsets.only(left: 8),
-                child: _buildEmotionPieChartWidget(context),
-              ),
-              WrappableText(
-                text: TextSpan(
-                  text: selectedJournalEntry.queries.last.analysis,
-                  style: AppTextStyles.light.copyWith(
-                    fontSize: 16.sp,
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
-            ],
+          _buildEmotionPieChartWidget(context),
+          12.verticalSpace,
+          Text(
+            selectedJournalEntry.queries.last.analysis,
+            textScaler: TextScaler.linear(1),
+            style: AppTextStyles.light.copyWith(
+              fontSize: 16.sp,
+              color: AppColors.white,
+            ),
           ),
         ],
       ),
     );
   }
 
+
   Widget _buildEmotionPieChartWidget(BuildContext context) {
     return SizedBox(
-      width: 150.w,
-      height: 200.h,
-      child: PieChart(
-        PieChartData(
-          sections: selectedJournalEntry.emotionsList
-              .map(
-                (element) =>
-                PieChartSectionData(
-                    value: element.percentage.toDouble() / 100,
-                    showTitle: true,
-                    title: element.emotion,
-
-                    titleStyle: AppTextStyles.bold.copyWith(
-                      fontSize: 16.sp,
-                      color: EmotionColorGenerator.getColorForEmotion(element.emotion).computeLuminance() > 0.5 ? AppColors.black : AppColors.white
+      width: Get.width,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 20.w,
+                      height: 20.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(int.parse(selectedJournalEntry.emotionsList[index].colorHex.replaceAll("#", "0xFF")))
+                      ),
                     ),
-                    color: EmotionColorGenerator.getColorForEmotion(element.emotion)
+                    5.horizontalSpace,
+                    Text(
+                      selectedJournalEntry.emotionsList[index].emotion,
+                      textScaler: TextScaler.linear(1),
+                      style: AppTextStyles.bold.copyWith(
+                        fontSize: 14.sp,
+                        color: AppColors.white,
+                      ),
+                    ),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return 15.verticalSpace;
+              },
+              itemCount: selectedJournalEntry.emotionsList.length,
+            ),
+          ),
+          15.horizontalSpace,
+          Expanded(
+            child: SizedBox(
+              height: 200.h,
+              child: PieChart(
+                PieChartData(
+                  sections: selectedJournalEntry.emotionsList
+                      .map(
+                        (element) => PieChartSectionData(
+                        value: element.percentage.toDouble() / 100,
+                        showTitle: true,
+                        title: "${element.percentage}%",
+                        titleStyle: AppTextStyles.black.copyWith(
+                          fontSize: 16.sp,
+                          color: AppColors.white,
+                        ),
+                        color: Color(int.parse(element.colorHex.replaceAll("#", "0xFF")))),
+                  )
+                      .toList(),
                 ),
-          )
-              .toList(),
-        ),
-
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

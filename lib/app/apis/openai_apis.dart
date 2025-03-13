@@ -1,15 +1,31 @@
 import 'dart:convert';
+import 'dart:developer';
+
 import 'package:emotijournal/app/configs/api_configs.dart';
 import 'package:emotijournal/app/models/journal_response_model.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class JournalAI {
   JournalAI._();
+  static final apiKey = "".obs;
+
+  static Future<void> fetchApiKey() async {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(seconds: 10),
+      minimumFetchInterval: const Duration(seconds: 0), // Change to hours in production
+    ));
+
+    await remoteConfig.fetchAndActivate();
+
+    apiKey.value = remoteConfig.getString('google_ai_api_key');
+  }
 
   static Future<JournalResponseModel> getFirstResponse(String query) async {
     final response = await http.post(
-      Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${ApiConfigs.googleAiApiKey}"),
+      Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey.value}"),
       body: jsonEncode({
         "contents": [
           {
@@ -32,6 +48,7 @@ class JournalAI {
       final data = jsonDecode(response.body);
       final cleanedString = convertJsonResponse(data['candidates'][0]['content']['parts'][0]['text']);
       final result = jsonDecode(cleanedString) as Map<String,dynamic>;
+      log(result.toString());
       return JournalResponseModel.fromJson(result);
     }
     return JournalResponseModel.empty();

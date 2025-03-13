@@ -37,20 +37,24 @@ class JournalResponseModel {
 class Emotion {
   final String emotion;
   final int percentage;
+  final String colorHex;
 
   Emotion({
     required this.emotion,
     required this.percentage,
+    required this.colorHex,
   });
 
   factory Emotion.fromJson(Map<String, dynamic> json) => Emotion(
     emotion: json["emotion"],
     percentage: json["percentage"],
+    colorHex: json["color"],
   );
 
   Map<String, dynamic> toJson() => {
     "emotion": emotion,
     "percentage": percentage,
+    "color": colorHex ,
   };
 }
 

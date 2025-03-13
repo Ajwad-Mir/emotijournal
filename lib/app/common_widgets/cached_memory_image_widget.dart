@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
@@ -43,8 +44,8 @@ class CachedBase64Image extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white.withAlpha(10)
-              : Colors.black.withAlpha(10),
+              ? Colors.white.withAlpha((255 * 0.1).round())
+              : Colors.black.withAlpha((255 * 0.1).round()),
         ),
       ),
     );

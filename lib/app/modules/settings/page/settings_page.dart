@@ -1,7 +1,6 @@
-import 'package:emotijournal/app/modules/settings/dialogs/theme_selection_dialog.dart';
 import 'package:emotijournal/app/modules/login/pages/login_page.dart';
 import 'package:emotijournal/app/modules/settings/controller/settings_controller.dart';
-import 'package:emotijournal/app/modules/subscriptions/pages/subscription_page.dart';
+import 'package:emotijournal/app/modules/settings/dialogs/theme_selection_dialog.dart';
 import 'package:emotijournal/app/services/auth_providers/google_auth_provider_services.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
@@ -28,22 +28,22 @@ class SettingsPage extends GetView<SettingsController> {
       appBar: AppBar(
         systemOverlayStyle: Theme.of(context).brightness == Brightness.dark
             ? SystemUiOverlayStyle(
-                systemNavigationBarColor: Colors.black.withAlpha(1),
+                systemNavigationBarColor: Colors.black.withAlpha((255 * 0.01).round()),
                 systemNavigationBarIconBrightness: Brightness.light,
                 statusBarIconBrightness: Brightness.light,
                 //Android Icons
                 statusBarBrightness: Brightness.dark,
                 //iOS Icons
-                statusBarColor: Colors.black.withAlpha(1),
+                statusBarColor: Colors.black.withAlpha((255 * 0.01).round()),
               )
             : SystemUiOverlayStyle(
-                systemNavigationBarColor: Colors.white.withAlpha(1),
+                systemNavigationBarColor: Colors.white.withAlpha((255 * 0.01).round()),
                 systemNavigationBarIconBrightness: Brightness.dark,
                 statusBarIconBrightness: Brightness.dark,
                 //Android Icons
                 statusBarBrightness: Brightness.light,
                 //iOS Icons
-                statusBarColor: Colors.black.withAlpha(1),
+                statusBarColor: Colors.black.withAlpha((255 * 0.01).round()),
               ),
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
@@ -145,11 +145,7 @@ class SettingsPage extends GetView<SettingsController> {
               _buildCustomListTile(
                 context: context,
                 onPressed: () {
-                  Get.to(
-                    () => SubscriptionPage(),
-                    transition: Transition.fadeIn,
-                    duration: 850.milliseconds,
-                  );
+                  Fluttertoast.showToast(msg: 'Coming Soon',toastLength: Toast.LENGTH_SHORT);
                 },
                 title: "Manage Subscription",
                 leadingSvgIcon: SvgPicture.asset(

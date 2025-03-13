@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:emotijournal/app/database/users_database.dart';
 import 'package:emotijournal/app/modules/journal_entry/dialogs/generating_response_dialog.dart';
 import 'package:emotijournal/app/services/session_service.dart';
@@ -41,6 +42,7 @@ class UpdateProfileController extends GetxController {
   Future<void> updateExistingUser() async {
     await Get.dialog(
       Dialog(
+        backgroundColor: Colors.transparent,
         child: GeneratingResponseDialog(
           completionFunction: () async {
             final image = await xFileToBase64(imageFile.value!);
@@ -56,7 +58,7 @@ class UpdateProfileController extends GetxController {
         ),
       ),
       barrierDismissible: false,
-      barrierColor: AppColors.black.withAlpha(75),
+      barrierColor: AppColors.black.withAlpha((255 * 0.5).round()),
     );
 
   }

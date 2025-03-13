@@ -57,8 +57,8 @@ class RegisterSection extends GetView<RegisterController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withAlpha(50)
-                          : AppColors.lightTextColor.withAlpha(50),
+                          ? AppColors.darkTextColor.withAlpha((255 * 0.5).round())
+                          : AppColors.lightTextColor.withAlpha((255 * 0.5).round()),
                     ),
                     validator: (val) {
                       if (val.toString().isEmpty) {
@@ -102,8 +102,8 @@ class RegisterSection extends GetView<RegisterController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withAlpha(50)
-                          : AppColors.lightTextColor.withAlpha(50),
+                          ? AppColors.darkTextColor.withAlpha((255 * 0.5).round())
+                          : AppColors.lightTextColor.withAlpha((255 * 0.5).round()),
                     ),
                     validator: (val) {
                       if (val.toString().isEmpty) {
@@ -147,8 +147,8 @@ class RegisterSection extends GetView<RegisterController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withAlpha(50)
-                          : AppColors.lightTextColor.withAlpha(50),
+                          ? AppColors.darkTextColor.withAlpha((255 * 0.5).round())
+                          : AppColors.lightTextColor.withAlpha((255 * 0.5).round()),
                     ),
                     validator: (val) {
                       if (val.toString().isEmpty) {
@@ -201,8 +201,8 @@ class RegisterSection extends GetView<RegisterController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withAlpha(50)
-                          : AppColors.lightTextColor.withAlpha(50),
+                          ? AppColors.darkTextColor.withAlpha((255 * 0.5).round())
+                          : AppColors.lightTextColor.withAlpha((255 * 0.5).round()),
                     ),
                     fillColor: Theme.of(context).brightness == Brightness.dark
                         ? AppColors.darkBackgroundColor

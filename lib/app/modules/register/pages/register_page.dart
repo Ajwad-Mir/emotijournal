@@ -22,7 +22,9 @@ class RegisterPage extends GetView<RegisterController> {
   Widget build(BuildContext context) {
     return GetBuilder<RegisterController>(
       builder: (_) => Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.darkBackgroundColor
+            : AppColors.lightBackgroundColor,
         body: Container(
           width: Get.width,
           height: Get.height,
@@ -57,7 +59,10 @@ class RegisterPage extends GetView<RegisterController> {
                             "Already have a account? ",
                             style: AppTextStyles.normal.copyWith(
                               fontSize: 16.sp,
-                              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? AppColors.darkTextColor
+                                  : AppColors.lightTextColor,
                             ),
                           ),
                           CupertinoButton(
@@ -76,7 +81,10 @@ class RegisterPage extends GetView<RegisterController> {
                               style: AppTextStyles.normal.copyWith(
                                 fontSize: 16.sp,
                                 decoration: TextDecoration.underline,
-                                decorationColor: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+                                decorationColor: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? AppColors.darkTextColor
+                                    : AppColors.lightTextColor,
                                 color: const Color(0xFF00DA89),
                               ),
                             ),
@@ -108,7 +116,10 @@ class RegisterPage extends GetView<RegisterController> {
               'Welcome to EmotiJournal',
               textScaler: const TextScaler.linear(1),
               style: AppTextStyles.semiBold.copyWith(
-                  fontSize: 24.sp, color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor),
+                  fontSize: 24.sp,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.darkTextColor
+                      : AppColors.lightTextColor),
             ),
           ),
           10.verticalSpace,
@@ -120,8 +131,9 @@ class RegisterPage extends GetView<RegisterController> {
               style: AppTextStyles.normal.copyWith(
                   fontSize: 16.sp,
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? AppColors.darkTextColor.withAlpha(50)
-                      : AppColors.lightTextColor.withAlpha(50)),
+                      ? AppColors.darkTextColor.withAlpha((255 * 0.5).round())
+                      : AppColors.lightTextColor
+                          .withAlpha((255 * 0.5).round())),
             ),
           ),
         ],
@@ -147,7 +159,9 @@ class RegisterPage extends GetView<RegisterController> {
             textScaler: const TextScaler.linear(1),
             style: AppTextStyles.normal.copyWith(
               fontSize: 14.sp,
-              color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkTextColor : AppColors.lightTextColor,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.darkTextColor
+                  : AppColors.lightTextColor,
             ),
           ),
         ),
@@ -160,9 +174,12 @@ class RegisterPage extends GetView<RegisterController> {
               _buildPlatformButton(
                 context: context,
                 onPressed: () async {
-                  await Get.find<SessionService>().createNewUserProvider(providerName: "Google");
+                  await Get.find<SessionService>()
+                      .createNewUserProvider(providerName: "Google");
                 },
-                borderColor: Theme.of(context).brightness == Brightness.light ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+                borderColor: Theme.of(context).brightness == Brightness.light
+                    ? AppColors.darkBackgroundColor
+                    : AppColors.lightBackgroundColor,
                 icon: Assets.svgGoogleIcon,
               ),
               if (Platform.isIOS) ...[
@@ -170,9 +187,12 @@ class RegisterPage extends GetView<RegisterController> {
                 _buildPlatformButton(
                   context: context,
                   onPressed: () async {
-                    await Get.find<SessionService>().createNewUserProvider(providerName: "Apple");
+                    await Get.find<SessionService>()
+                        .createNewUserProvider(providerName: "Apple");
                   },
-                  borderColor: Theme.of(context).brightness == Brightness.light ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+                  borderColor: Theme.of(context).brightness == Brightness.light
+                      ? AppColors.darkBackgroundColor
+                      : AppColors.lightBackgroundColor,
                   icon: Assets.svgAppleIcon,
                 )
               ]
@@ -199,7 +219,9 @@ class RegisterPage extends GetView<RegisterController> {
         height: 75.h,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBackgroundColor : AppColors.lightBackgroundColor,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.darkBackgroundColor
+              : AppColors.lightBackgroundColor,
           border: Border.all(
             color: borderColor,
             width: 1.0,

@@ -59,11 +59,10 @@ class SessionService extends GetxService {
         fullName: user.user!.displayName.toString(),
         emailAddress: Get.find<LoginController>().emailController.text,
         password: Get.find<LoginController>().passwordController.text,
-        profileImageLink: user.user!.photoURL.toString(),
+        profileImageLink: user.user!.photoURL ?? "",
         createdAt: Timestamp.fromDate(user.user!.metadata.creationTime!),
         updatedAt: Timestamp.now(),
       );
-      print(Get.find<SessionService>().sessionUser.value.toMap().toString());
       isProcessing.value = false;
       Get.offAll(
         () => HomePage(),

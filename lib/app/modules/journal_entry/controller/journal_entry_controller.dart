@@ -44,7 +44,6 @@ class JournalManagementController extends GetxController {
     generatedJournal.value = await JournalDatabase.createNewJournalEntry(
       JournalModel.fromJournalResponseModel(journal),
     );
-    Get.find<HomeController>().journalList.clear();
     await Get.find<HomeController>().getAllJournalEntries();
   }
 
@@ -53,7 +52,6 @@ class JournalManagementController extends GetxController {
     final journal = await JournalAI.getImprovedResponse(textController.text);
     generatedJournal.value = JournalModel.fromJournalResponseModel(journal).copyWith(id: id);
     generatedJournal.value = await JournalDatabase.updateJournalEntry(generatedJournal.value);
-    Get.find<HomeController>().journalList.clear();
     await Get.find<HomeController>().getAllJournalEntries();
   }
 

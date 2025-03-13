@@ -27,6 +27,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> getAllJournalEntries() async{
+    journalList.clear();
     isLoading.value = true;
     journalList.addAll(await JournalDatabase.getAllJournalEntries());
     isLoading.value = false;

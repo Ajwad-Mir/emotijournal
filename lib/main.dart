@@ -16,6 +16,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
+  await JournalAI.fetchApiKey();
   runApp(const MyApp());
 }
 
@@ -34,8 +35,8 @@ class MyApp extends StatelessWidget {
         title: 'EmotiJournal',
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light().copyWith(
-          textSelectionTheme: const TextSelectionThemeData(
-            selectionHandleColor: AppColors.white,
+          textSelectionTheme: TextSelectionThemeData(
+            selectionHandleColor: AppColors.primaryGradient.colors.first,
           ),
         ),
         darkTheme: ThemeData.dark().copyWith(

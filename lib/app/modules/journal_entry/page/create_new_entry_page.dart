@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:emotijournal/app/modules/journal_entry/controller/journal_entry_controller.dart';
 import 'package:emotijournal/app/modules/journal_entry/dialogs/generating_response_dialog.dart';
@@ -170,7 +168,7 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
                         ? RippleAnimation(
                             duration: 2.seconds,
                             repeat: true,
-                            color: AppColors.white.withAlpha(10),
+                            color: AppColors.white.withAlpha((255 * 0.1).round()),
                             ripplesCount: 4,
                             delay: 500.milliseconds,
                             minRadius: 30.w,
@@ -225,6 +223,7 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
         if (controller.emotionsTextController.text.isNotEmpty) {
           await Get.dialog(
             Dialog(
+              backgroundColor: Colors.transparent,
               child: GeneratingResponseDialog(
                 completionFunction: () async {
                   await controller.createNewJournal();
@@ -237,7 +236,7 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
               ),
             ),
             barrierDismissible: false,
-            barrierColor: AppColors.black.withAlpha(75),
+            barrierColor: AppColors.black.withAlpha((255 * 0.75).round())
           );
         } else {
           Fluttertoast.showToast(

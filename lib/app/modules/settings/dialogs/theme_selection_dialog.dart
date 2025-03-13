@@ -38,7 +38,7 @@ class ThemeSelectionDialog extends StatelessWidget {
               textScaler: const TextScaler.linear(1),
               style: AppTextStyles.medium.copyWith(
                 fontSize: 12.sp,
-                color: AppColors.white.withAlpha(50),
+                color: AppColors.white.withAlpha((255 * 0.5).round()),
               ),
             ),
             50.verticalSpace,
@@ -89,7 +89,7 @@ class ThemeSelectionDialog extends StatelessWidget {
                 ),
               ),
               separatorBuilder: (context, index) => Divider(
-                color: AppColors.white.withAlpha(50),
+                color: AppColors.white.withAlpha((255 * 0.5).round()),
               ),
               itemCount: ThemeMode.values.length,
             )

@@ -86,8 +86,8 @@ class HomePage extends GetView<HomeController> {
       itemBuilder: (context, index) {
         if (controller.isLoading.isTrue) {
           return Shimmer.fromColors(
-            baseColor: (Theme.of(context).brightness == Brightness.light ? AppColors.white : AppColors.black).withAlpha(20),
-            highlightColor: (Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black).withAlpha(40),
+            baseColor: (Theme.of(context).brightness == Brightness.light ? AppColors.white : AppColors.black).withAlpha((255 * 0.2).round()),
+            highlightColor: (Theme.of(context).brightness == Brightness.dark ? AppColors.white : AppColors.black).withAlpha((255 * 0.2).round()),
             direction: ShimmerDirection.ltr,
             period: 850.milliseconds,
             child: Container(
@@ -165,8 +165,8 @@ class HomePage extends GetView<HomeController> {
                   style: AppTextStyles.semiBold.copyWith(
                     fontSize: 12.sp,
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? AppColors.darkTextColor.withAlpha(40)
-                        : AppColors.lightTextColor.withAlpha(40),
+                        ? AppColors.darkTextColor.withAlpha((255 * 0.4).round())
+                        : AppColors.lightTextColor.withAlpha((255 * 0.4).round()),
                   ),
                 )
               ],
@@ -181,8 +181,8 @@ class HomePage extends GetView<HomeController> {
                 style: AppTextStyles.normal.copyWith(
                   fontSize: 14.sp,
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? AppColors.darkTextColor.withAlpha(75)
-                      : AppColors.lightTextColor.withAlpha(75),
+                      ? AppColors.darkTextColor.withAlpha((255 * 0.75).round())
+                      : AppColors.lightTextColor.withAlpha((255 * 0.75).round()),
                 ),
               ),
             ),

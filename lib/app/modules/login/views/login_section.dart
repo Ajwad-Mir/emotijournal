@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:emotijournal/app/modules/login/controller/login_controller.dart';
 import 'package:emotijournal/app/common_widgets/custom_text_form_field.dart';
 import 'package:emotijournal/app/common_widgets/gradient_checkbox.dart';
+import 'package:emotijournal/app/modules/login/controller/login_controller.dart';
 import 'package:emotijournal/app/services/session_service.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
@@ -58,8 +58,8 @@ class LoginSection extends GetView<LoginController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withAlpha(50)
-                          : AppColors.lightTextColor.withAlpha(50),
+                          ? AppColors.darkTextColor.withAlpha((255 * 0.5).round())
+                          : AppColors.lightTextColor.withAlpha((255 * 0.5).round()),
                     ),
                     validator: (value) {
                       if (value.toString().isEmpty) {
@@ -102,8 +102,8 @@ class LoginSection extends GetView<LoginController> {
                     hintStyle: AppTextStyles.normal.copyWith(
                       fontSize: 14.sp,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkTextColor.withAlpha(50)
-                          : AppColors.lightTextColor.withAlpha(50),
+                          ? AppColors.darkTextColor.withAlpha((255 * 0.5).round())
+                          : AppColors.lightTextColor.withAlpha((255 * 0.5).round()),
                     ),
                     validator: (value) {
                       if (value.toString().isEmpty) {
