@@ -25,7 +25,7 @@ class JournalAI {
 
   static Future<JournalResponseModel> getFirstResponse(String query) async {
     final response = await http.post(
-      Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey.value}"),
+      Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey.value}"),
       body: jsonEncode({
         "contents": [
           {
