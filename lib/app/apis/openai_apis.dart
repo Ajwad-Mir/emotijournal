@@ -25,7 +25,7 @@ class JournalAI {
 
   static Future<JournalResponseModel> getFirstResponse(String query) async {
     final response = await http.post(
-      Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey.value}"),
+      Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey.value}"),
       body: jsonEncode({
         "contents": [
           {
@@ -56,7 +56,7 @@ class JournalAI {
 
   static Future<JournalResponseModel> getImprovedResponse(String query) async {
     final response = await http.post(
-        Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${ApiConfigs.apiQuery}"),
+        Uri.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey.value}"),
         body: jsonEncode({
           "contents": [
             {
@@ -75,9 +75,11 @@ class JournalAI {
           'Content-Type': 'application/json',
         }
     );
+    log(response.body.toString());
     if(response.statusCode == 200){
       final data = jsonDecode(response.body);
       final cleanedString = convertJsonResponse(data['candidates'][0]['content']['parts'][0]['text']);
+      log(cleanedString);
       final result = jsonDecode(cleanedString) as Map<String,dynamic>;
       return JournalResponseModel.fromJson(result);
     }

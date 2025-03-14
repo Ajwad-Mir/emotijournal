@@ -19,12 +19,15 @@ class JournalResponseModel {
     quotes: [],
   );
 
-  factory JournalResponseModel.fromJson(Map<String, dynamic> json) => JournalResponseModel(
-    title: json['title'],
-    queries: List<Query>.from(json["queries"].map((x) => Query.fromJson(x))),
-    emotions: List<Emotion>.from(json["emotions"].map((x) => Emotion.fromJson(x))),
-    quotes: List<Quote>.from(json["quotes"].map((x) => Quote.fromJson(x))),
-  );
+  factory JournalResponseModel.fromJson(Map<String, dynamic> json) {
+    return JournalResponseModel(
+      title: json['title'] ?? '',
+      quotes: (json['quotes'] as List?)?.map((e) => Quote.fromJson(e)).toList() ?? [],
+      queries: (json['queries'] as List?)?.map((e) => Query.fromJson(e)).toList() ?? [],
+      emotions: (json['emotions'] as List?)?.map((e) => Emotion.fromJson(e)).toList() ?? [], // Fix null issue
+    );
+  }
+
 
   Map<String, dynamic> toJson() => {
     "title": title,
@@ -56,6 +59,14 @@ class Emotion {
     "percentage": percentage,
     "color": colorHex ,
   };
+
+  Emotion copyWith({String? emotion, String? colorHex, int? percentage}) {
+    return Emotion(
+      emotion: emotion ?? this.emotion,
+      percentage: percentage ?? this.percentage,
+      colorHex: colorHex ?? this.colorHex,
+    );
+  }
 }
 
 class Query {

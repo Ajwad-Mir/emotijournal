@@ -40,18 +40,21 @@ class JournalManagementController extends GetxController {
   }
 
   Future<void> createNewJournal() async {
-    final journal = await JournalAI.getFirstResponse(emotionsTextController.text);
+    final journal =
+        await JournalAI.getFirstResponse(emotionsTextController.text);
     generatedJournal.value = await JournalDatabase.createNewJournalEntry(
-      JournalModel.fromJournalResponseModel(journal),
+      JournalModel.fromJournalResponseModel(
+        journal,
+      ),
     );
     await Get.find<HomeController>().getAllJournalEntries();
   }
 
   Future<void> improveJournal() async {
-    final id = generatedJournal.value.id;
+    final originalJournal = generatedJournal.value;
     final journal = await JournalAI.getImprovedResponse(textController.text);
-    generatedJournal.value = JournalModel.fromJournalResponseModel(journal).copyWith(id: id);
-    generatedJournal.value = await JournalDatabase.updateJournalEntry(generatedJournal.value);
+    generatedJournal.value = await JournalDatabase.updateJournalEntry(
+        JournalModel.mergeWithResponseModel(originalJournal, journal));
     await Get.find<HomeController>().getAllJournalEntries();
   }
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:emotijournal/app/services/auth_providers/google_auth_provider_services.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';

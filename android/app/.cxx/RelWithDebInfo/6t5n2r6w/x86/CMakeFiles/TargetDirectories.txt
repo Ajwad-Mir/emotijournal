@@ -1,0 +1,2 @@
+C:/Users/Windows 11 Review/IdeaProjects/emotijournal/android/app/.cxx/RelWithDebInfo/6t5n2r6w/x86/CMakeFiles/edit_cache.dir
+C:/Users/Windows 11 Review/IdeaProjects/emotijournal/android/app/.cxx/RelWithDebInfo/6t5n2r6w/x86/CMakeFiles/rebuild_cache.dir

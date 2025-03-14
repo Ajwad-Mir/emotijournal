@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:emotijournal/firebase_options.dart';
 import 'package:emotijournal/generated/assets.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';

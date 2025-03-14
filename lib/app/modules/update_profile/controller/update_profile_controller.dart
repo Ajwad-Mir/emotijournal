@@ -53,8 +53,8 @@ class UpdateProfileController extends GetxController {
               profileImageLink: image,
             );
             UsersDatabase.updateUser(updatedUserData: updatedUser);
-
           },
+          dialogText: "Updating Profile. Please wait",
         ),
       ),
       barrierDismissible: false,

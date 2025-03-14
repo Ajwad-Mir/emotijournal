@@ -23,10 +23,7 @@ class ResponseViewPage extends GetView<JournalManagementController> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvokedWithResult: (val, _) {
-        Get.offAll(() => HomePage(),
-            transition: Transition.fade, duration: 850.milliseconds);
-      },
+      canPop: false,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
@@ -169,6 +166,8 @@ class ResponseViewPage extends GetView<JournalManagementController> {
                                 child: GeneratingResponseDialog(
                                   completionFunction: () async {
                                     await controller.improveJournal();
+                                    Get.back();
+                                    controller.textController.clear();
                                   },
                                 ),
                               ),

@@ -8,8 +8,13 @@ import 'package:lottie/lottie.dart';
 
 class GeneratingResponseDialog extends StatefulWidget {
   final VoidCallback completionFunction;
+  final String dialogText;
 
-  const GeneratingResponseDialog({super.key, required this.completionFunction});
+  const GeneratingResponseDialog(
+      {super.key,
+      required this.completionFunction,
+      this.dialogText =
+          'Thinking about how to respond to\nyour feelings. It can be hard\nsometimes but i know you are\ndoing what you can'});
 
   @override
   State<GeneratingResponseDialog> createState() =>
@@ -22,9 +27,8 @@ class _GeneratingResponseDialogState extends State<GeneratingResponseDialog> {
     return Container(
       width: Get.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50.r),
-        color: AppColors.black.withAlpha((255 * 0.85).round())
-      ),
+          borderRadius: BorderRadius.circular(50.r),
+          color: AppColors.black.withAlpha((255 * 0.85).round())),
       padding: EdgeInsets.symmetric(horizontal: 35.w, vertical: 35.h),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -38,13 +42,12 @@ class _GeneratingResponseDialogState extends State<GeneratingResponseDialog> {
           ),
           6.verticalSpace,
           Text(
-            'Thinking about how to respond to\nyour feelings. It can be hard\nsometimes but i know you are\ndoing what you can',
+            widget.dialogText,
             textScaler: const TextScaler.linear(1),
             textAlign: TextAlign.center,
             style: AppTextStyles.semiBold.copyWith(
-              fontSize: 16.sp,
-              color: AppColors.white.withAlpha((255 * 0.85).round())
-            ),
+                fontSize: 16.sp,
+                color: AppColors.white.withAlpha((255 * 0.85).round())),
           )
         ],
       ),

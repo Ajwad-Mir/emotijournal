@@ -1,5 +1,5 @@
-import 'package:emotijournal/app/modules/splash/controller/splash_controller.dart';
 import 'package:emotijournal/app/common_widgets/logo_widget.dart';
+import 'package:emotijournal/app/modules/splash/controller/splash_controller.dart';
 import 'package:emotijournal/global/constants/app_colors.dart';
 import 'package:emotijournal/global/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
