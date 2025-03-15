@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:emotijournal/app/common_widgets/custom_text_form_field.dart';
+import 'package:emotijournal/app/modules/home/controller/home_controller.dart';
 import 'package:emotijournal/app/modules/home/pages/home_page.dart';
 import 'package:emotijournal/app/modules/journal_entry/controller/journal_entry_controller.dart';
 import 'package:emotijournal/app/modules/journal_entry/dialogs/generating_response_dialog.dart';
@@ -41,8 +42,9 @@ class ResponseViewPage extends GetView<JournalManagementController> {
           ),
           leading: CupertinoButton(
             onPressed: () {
-              Get.offAll(() => HomePage(),
-                  transition: Transition.fade, duration: 850.milliseconds);
+              Get.offAll(() => HomePage(), binding: BindingsBuilder(() {
+                Get.lazyPut(() => HomeController());
+              }),transition: Transition.fade, duration: 850.milliseconds);
             },
             minSize: 0,
             padding: EdgeInsets.zero,

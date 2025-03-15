@@ -41,7 +41,6 @@ dependencies:
   gradient_borders: ^1.0.1
   flutter_screenutil: ^5.9.3
   animate_do: ^3.3.4
-  http: ^1.2.2
   intl: ^0.19.0
   table_calendar: ^3.1.2
   simple_ripple_animation: ^0.0.9
@@ -62,6 +61,7 @@ dependencies:
   float_column: ^3.0.0
   firebase_remote_config: ^5.4.2
   firebase_analytics: ^11.4.4
+  google_generative_ai: ^0.4.6
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:emotijournal/app/apis/openai_apis.dart';
 import 'package:emotijournal/app/database/journal_database.dart';
 import 'package:emotijournal/app/models/journal_model.dart';
@@ -40,12 +42,13 @@ class JournalManagementController extends GetxController {
   }
 
   Future<void> createNewJournal() async {
-    final journal =
-        await JournalAI.getFirstResponse(emotionsTextController.text);
+    final journal = await JournalAI.getFirstResponse(emotionsTextController.text);
+    final journalConversion = JournalModel.fromJournalResponseModel(
+            journal,
+          );
+    log(journalConversion.toMap().toString());
     generatedJournal.value = await JournalDatabase.createNewJournalEntry(
-      JournalModel.fromJournalResponseModel(
-        journal,
-      ),
+      journalConversion
     );
     await Get.find<HomeController>().getAllJournalEntries();
   }

@@ -32,7 +32,7 @@ class JournalResponseModel {
   Map<String, dynamic> toJson() => {
     "title": title,
     "queries": List<dynamic>.from(queries.map((x) => x.toJson())),
-    "emotions": List<dynamic>.from(emotions.map((x) => x)),
+    "emotions": List<dynamic>.from(emotions.map((x) => x.toJson())),
     "quotes": List<dynamic>.from(quotes.map((x) => x.toJson())),
   };
 }
@@ -51,13 +51,13 @@ class Emotion {
   factory Emotion.fromJson(Map<String, dynamic> json) => Emotion(
     emotion: json["emotion"],
     percentage: json["percentage"],
-    colorHex: json["color"],
+    colorHex: json["colorHex"],
   );
 
   Map<String, dynamic> toJson() => {
     "emotion": emotion,
     "percentage": percentage,
-    "color": colorHex ,
+    "colorHex": colorHex ,
   };
 
   Emotion copyWith({String? emotion, String? colorHex, int? percentage}) {

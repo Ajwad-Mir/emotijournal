@@ -5,7 +5,7 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Future.delayed(0.seconds, () async{
+    Future.delayed(1.5.seconds, () async{
       await Get.find<SessionService>().getUserFromToken();
     });
   }

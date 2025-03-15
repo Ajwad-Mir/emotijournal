@@ -227,6 +227,7 @@ class CreateNewEntryPage extends GetView<JournalManagementController> {
               child: GeneratingResponseDialog(
                 completionFunction: () async {
                   await controller.createNewJournal();
+
                   Get.off(
                     () => ResponseViewPage(),
                     transition: Transition.cupertino,

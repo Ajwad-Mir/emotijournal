@@ -182,6 +182,7 @@ class JournalModel {
   }
 }
 
+
 class Quotes {
   final String quote;
   final String author;

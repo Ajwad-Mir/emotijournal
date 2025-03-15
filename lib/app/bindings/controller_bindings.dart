@@ -14,10 +14,10 @@ class ControllerBindings extends Bindings {
     Get.lazyPut(() => SplashController());
     Get.lazyPut(() => LoginController());
     Get.lazyPut(() => RegisterController());
-    Get.lazyPut(() => HomeController(), fenix: true);
-    Get.lazyPut(() => JournalManagementController(), fenix: true);
-    Get.lazyPut(() => SubscriptionsController());
-    Get.lazyPut(() => SettingsController());
-    Get.lazyPut(() => UpdateProfileController());
+    Get.lazyPut(() => HomeController(),fenix: true);
+    Get.lazyPut(() => JournalManagementController(),fenix: true);
+    Get.lazyPut(() => SubscriptionsController(),fenix: true);
+    Get.lazyPut(() => SettingsController(),fenix: true);
+    Get.lazyPut(() => UpdateProfileController(),fenix: true) ;
   }
 }
