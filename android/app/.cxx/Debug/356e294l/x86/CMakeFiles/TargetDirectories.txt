@@ -1,0 +1,2 @@
+C:/Users/ajwad/StudioProjects/emotijournal/android/app/.cxx/Debug/356e294l/x86/CMakeFiles/edit_cache.dir
+C:/Users/ajwad/StudioProjects/emotijournal/android/app/.cxx/Debug/356e294l/x86/CMakeFiles/rebuild_cache.dir

@@ -40,8 +40,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         darkTheme: ThemeData.dark().copyWith(
-          textSelectionTheme: const TextSelectionThemeData(
-            selectionHandleColor: AppColors.white,
+          textSelectionTheme: TextSelectionThemeData(
+            selectionHandleColor: AppColors.primaryGradient.colors.first,
           ),
         ),
         themeMode: themeService.currentThemeMode.value,
